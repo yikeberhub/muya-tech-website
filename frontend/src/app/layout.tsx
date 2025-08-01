@@ -5,6 +5,8 @@ export const metadata = {
   description: 'My Next.js App with Tailwind CSS',
 };
 
+
+
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
