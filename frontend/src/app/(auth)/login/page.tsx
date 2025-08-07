@@ -20,9 +20,8 @@ export default function LoginPage() {
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [showPassword, setShowPassword] = useState<boolean>(false); // State for password visibility
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  // Redirect if already authenticated
   if (isAuthenticated) {
     router.push('/dashboard');
     return null;
