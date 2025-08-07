@@ -1,6 +1,6 @@
 // src/api/authApi.ts
-import axiosInstance from './axiosInstance'; // We'll create this next
-import { LoginPayload, LoginResponse, UserData } from './types'; // Define these types
+import axiosInstance from './axiosInstance';
+import { LoginPayload, LoginResponse, UserData } from './types'; 
 
 export const loginUser = async (email: string, password: string): Promise<LoginResponse> => {
   const payload: LoginPayload = { email, password };
@@ -8,4 +8,8 @@ export const loginUser = async (email: string, password: string): Promise<LoginR
   return response.data;
 };
 
-// Add registerUser, etc. here later
+export const registerUser = async (email: string, password: string, name: string): Promise<LoginResponse> => {
+  const payload = { email, password, name };
+  const response = await axiosInstance.post('/auth/register', payload);
+  return response.data;
+};
