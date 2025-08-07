@@ -9,9 +9,8 @@ import { loginUser } from '../../../api/authApi';
 
 import Input from '../../../components/ui/Input';
 import Button from '../../../components/ui/Button';
-import EyeIcon from '../../../components/ui/EyeIcon'; // Import the EyeIcon component
+import EyeIcon from '../../../components/ui/EyeIcon';
 
-// Import the metadata from the separate file
 import { metadata } from './metadata';
 
 export default function LoginPage() {
@@ -70,23 +69,27 @@ export default function LoginPage() {
             onChange={(e) => setEmail(e.target.value)}
             className="mb-4"
           />
-          <div className="relative flex items-center">
-            <Input
-              label="Password"
-              id="password"
-              name="password"
-              type={showPassword ? "text" : "password"}
-              autoComplete="current-password"
-              required
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <EyeIcon
-              isVisible={showPassword}
-              onClick={() => setShowPassword(!showPassword)}
-            />
-          </div>
+          <div className="relative">
+              <Input
+                label="Password"
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                autoComplete="current-password"
+                required
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="pr-10" 
+              />
+              <div className="absolute inset-y-0  right-0 top-6 flex items-center pr-3 ">
+                <EyeIcon
+                  isVisible={showPassword}
+                  onClick={() => setShowPassword(!showPassword)}
+                />
+  </div>
+</div>
+
         </div>
 
         {error && (
