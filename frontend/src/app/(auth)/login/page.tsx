@@ -1,23 +1,18 @@
-// src/app/(auth)/login/page.tsx
-"use client"; // This component needs client-side interactivity
+"use client";
 
 import { useState, FormEvent } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation'; // For navigation in App Router
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks'; // Your typed Redux hooks
+import { useRouter } from 'next/navigation';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { loginStart, loginSuccess, loginFailure } from '../../../redux/slices/authSlice';
-// import { AppDataSource } from '../../../config/database'; // For direct DB interaction in client-side code, NOT recommended!
-                                                         // REMOVE THIS. We will use API calls.
-import { loginUser } from '../../../api/authApi'; // This function will call your backend API
+import { loginUser } from '../../../api/authApi';
 
 import Input from '../../../components/ui/Input';
 import Button from '../../../components/ui/Button';
+import EyeIcon from '../../../components/ui/EyeIcon'; // Import the EyeIcon component
 
-// Add metadata for this specific page
-export const metadata = {
-  title: 'Login | Muya Tech Portfolio',
-  description: 'Login to your Muya Tech Portfolio account.',
-};
+// Import the metadata from the separate file
+import { metadata } from './metadata';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -26,11 +21,12 @@ export default function LoginPage() {
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [showPassword, setShowPassword] = useState<boolean>(false); // State for password visibility
 
   // Redirect if already authenticated
   if (isAuthenticated) {
-    router.push('/dashboard'); // Or wherever authenticated users go
-    return null; // Or a loading spinner
+    router.push('/dashboard');
+    return null;
   }
 
   const handleSubmit = async (e: FormEvent) => {
@@ -38,10 +34,9 @@ export default function LoginPage() {
     dispatch(loginStart());
 
     try {
-      // Call your API function here
-      const data = await loginUser(email, password); // This should be an Axios call via api/authApi.ts
+      const data = await loginUser(email, password);
       dispatch(loginSuccess({ user: data.user, token: data.token }));
-      router.push('/dashboard'); // Redirect on successful login
+      router.push('/dashboard');
     } catch (err: any) {
       const errorMessage = err.response?.data?.message || err.message || 'Login failed';
       dispatch(loginFailure(errorMessage));
@@ -73,19 +68,25 @@ export default function LoginPage() {
             placeholder="Email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mb-4" // Add margin-bottom for spacing between inputs
+            className="mb-4"
           />
-          <Input
-            label="Password"
-            id="password"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            required
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <div className="relative flex items-center">
+            <Input
+              label="Password"
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              autoComplete="current-password"
+              required
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <EyeIcon
+              isVisible={showPassword}
+              onClick={() => setShowPassword(!showPassword)}
+            />
+          </div>
         </div>
 
         {error && (
@@ -96,7 +97,7 @@ export default function LoginPage() {
           type="submit"
           className="w-full py-2 px-4"
           disabled={loading}
-          size="lg" // Use the larger size
+          size="lg"
         >
           {loading ? 'Signing In...' : 'Sign In'}
         </Button>

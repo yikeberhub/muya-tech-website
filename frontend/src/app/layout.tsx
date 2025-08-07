@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <ReduxProvider>
           <div className="flex flex-col min-h-screen"> {/* Use flexbox for sticky footer */}
-            <Header /> {/* Render Header */}
+            <Header /> 
             <main className="flex-grow"> {/* Main content grows to fill space */}
               {children}
             </main>

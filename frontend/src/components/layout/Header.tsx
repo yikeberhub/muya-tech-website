@@ -1,38 +1,35 @@
-// src/components/layout/Header.tsx
-// This component should be a Client Component if it has any client-side interactivity (e.g., mobile menu toggle)
 "use client";
 
-import Link from 'next/link'; // For client-side navigation
-import { useState } from 'react'; // Example for client-side state
+import Link from 'next/link';
+import Image from 'next/image';
+import { useState } from 'react'; 
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false); // For mobile menu
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <header className="bg-white shadow-md fixed w-full top-0 left-0 z-50">
-      <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <Link href="/" className="text-2xl font-bold text-gray-800 hover:text-blue-600 transition-colors">
-          Muya Tech
+      <nav className="container mx-auto px-6 py-2 flex justify-between items-center">
+        <Link href="/" className="flex items-center my-0 py-0">
+          <Image
+            src="/images/muyatech_logo.jpg"
+            alt="Muya Tech Logo"
+            width={70} 
+            height={50} 
+            className="mr-2 rounded-full" 
+          />
+          <span className="text-2xl font-bold text-blue-800 hover:text-blue-600 transition-colors">
+            Muya Tech
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-6">
-          <Link href="/projects" className="text-gray-600 hover:text-blue-600 transition-colors">
-            Projects
-          </Link>
-          <Link href="/services" className="text-gray-600 hover:text-blue-600 transition-colors">
-            Services
-          </Link>
-          <Link href="/about" className="text-gray-600 hover:text-blue-600 transition-colors">
-            About Us
-          </Link>
-          <Link href="/contact" className="text-gray-600 hover:text-blue-600 transition-colors">
-            Contact
-          </Link>
-          {/* Example for Dashboard link - only for authenticated admins */}
-          <Link href="/dashboard" className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
-            Dashboard
-          </Link>
+          <Link href="/projects" className="text-gray-600 hover:text-blue-600 transition-colors">Projects</Link>
+          <Link href="/services" className="text-gray-600 hover:text-blue-600 transition-colors">Services</Link>
+          <Link href="/about" className="text-gray-600 hover:text-blue-600 transition-colors">About Us</Link>
+          <Link href="/contact" className="text-gray-600 hover:text-blue-600 transition-colors">Contact</Link>
+          <Link href="/dashboard" className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">Dashboard</Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -49,14 +46,23 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Navigation Drawer */}
       {isOpen && (
-        <div className="md:hidden bg-white py-2 shadow-inner">
-          <Link href="/projects" className="block px-6 py-2 text-gray-800 hover:bg-gray-100">Projects</Link>
-          <Link href="/services" className="block px-6 py-2 text-gray-800 hover:bg-gray-100">Services</Link>
-          <Link href="/about" className="block px-6 py-2 text-gray-800 hover:bg-gray-100">About Us</Link>
-          <Link href="/contact" className="block px-6 py-2 text-gray-800 hover:bg-gray-100">Contact</Link>
-          <Link href="/dashboard" className="block px-6 py-2 text-blue-600 hover:bg-blue-50">Dashboard</Link>
+        <div className="fixed inset-y-0 right-0 w-1/2 bg-white z-40 shadow-lg">
+          <div className="flex justify-end p-4">
+            <button onClick={() => setIsOpen(false)} className="text-gray-800">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+          <div className="flex flex-col items-center space-y-6 mt-10">
+            <Link href="/projects" className="text-gray-800 hover:bg-gray-100 w-full text-center p-4">Projects</Link>
+            <Link href="/services" className="text-gray-800 hover:bg-gray-100 w-full text-center p-4">Services</Link>
+            <Link href="/about" className="text-gray-800 hover:bg-gray-100 w-full text-center p-4">About Us</Link>
+            <Link href="/contact" className="text-gray-800 hover:bg-gray-100 w-full text-center p-4">Contact</Link>
+            <Link href="/dashboard" className="text-blue-600 hover:bg-blue-50 w-full text-center p-4">Dashboard</Link>
+          </div>
         </div>
       )}
     </header>
