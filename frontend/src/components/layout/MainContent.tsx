@@ -7,7 +7,7 @@ import Testimonials from './Testimonials';
 
 export default function MainContent() {
   return (
-    <main className="space-y-32">
+    <main className="space-y-32 dark:bg-gray-900">
       <HeroSection />
       <Services />
       <Projects />

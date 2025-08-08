@@ -23,7 +23,7 @@ const testimonialsData = [
 
 export default function Testimonials() {
   return (
-    <section id="testimonials" className="py-20 bg-gray-100 text-gray-800">
+    <section id="testimonials" className="py-20 bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
       <div className="container mx-auto max-w-4xl text-center px-4">
         <h2 className="text-4xl font-bold mb-6">What Clients Say</h2>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-12">

@@ -28,7 +28,7 @@ const projectsData = [
 
 export default function Projects() {
   return (
-    <section id="projects" className="py-20 bg-gray-50 text-gray-900">
+    <section id="projects" className="py-20 bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-200">
       <div className="container mx-auto text-center max-w-6xl px-4">
         <h2 className="text-4xl font-bold mb-4">Projects</h2>
         <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-12">

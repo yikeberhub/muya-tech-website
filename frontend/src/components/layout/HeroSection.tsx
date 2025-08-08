@@ -2,7 +2,7 @@ import { FaArrowRight } from 'react-icons/fa';
 
 export default function HeroSection() {
   return (
-    <section className="relative flex min-h-[calc(100vh-80px)] items-center justify-center bg-gradient-to-r from-gray-400 to-purple-700 text-white p-8">
+    <section className="relative flex min-h-[calc(100vh-80px)] items-center justify-center bg-gradient-to-r from-gray-400 to-purple-700 text-white p-8 dark:bg-gray-900">
       <div className="text-center max-w-4xl mx-auto">
         <h1 className="text-5xl md:text-6xl font-extrabold mb-6 animate-fadeInUp">
           Innovative Software Solutions for Modern Businesses

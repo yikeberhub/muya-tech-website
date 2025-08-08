@@ -5,3 +5,17 @@
 body {
   @apply font-sans;
 }
+
+body {
+  @apply bg-white text-gray-900;
+}
+
+/* Dark mode base styles */
+.dark body {
+  @apply bg-gray-900 text-gray-200;
+}
+
+/* Optional section style */
+section {
+  @apply p-4 rounded-lg;
+}
