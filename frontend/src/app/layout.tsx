@@ -26,7 +26,7 @@ export default function RootLayout({
             <main className="flex-grow"> {/* Main content grows to fill space */}
               {children}
             </main>
-            <Footer /> {/* Render Footer */}
+            <Footer /> 
           </div>
         </ReduxProvider>
       </body>
