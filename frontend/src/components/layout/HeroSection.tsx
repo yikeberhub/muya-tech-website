@@ -1,5 +1,4 @@
-// src/components/layout/HeroSection.tsx
-import { ArrowRightIcon } from '@heroicons/react/solid'; // using heroicons for arrow
+import { FaArrowRight } from 'react-icons/fa';
 
 export default function HeroSection() {
   return (
@@ -14,7 +13,7 @@ export default function HeroSection() {
         <div className="flex justify-center space-x-6 opacity-90 animate-fadeInUp animation-delay-1000">
           <button className="inline-flex items-center bg-white text-blue-700 hover:bg-gray-100 font-bold py-3 px-6 rounded-full shadow-lg transition duration-300">
             Explore Our Projects
-            <ArrowRightIcon className="w-5 h-5 ml-2" />
+            <FaArrowRight className="w-5 h-5 ml-2" />
           </button>
           <button className="bg-transparent border-2 border-white hover:bg-white hover:text-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300">
             Get In Touch
