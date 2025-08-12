@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+return new class  extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('featured_products', function (Blueprint $table) {
+        Schema::create('testimonials', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->decimal('price', 10, 2)->nullable();
-            $table->string('image_url')->nullable();
-            $table->string('product_url')->nullable();
+            $table->string('client_name');
+            $table->string('client_title')->nullable();
+            $table->text('content');
+            $table->string('client_image_url')->nullable();
             $table->timestamps();
         });
     }
