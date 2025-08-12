@@ -10,7 +10,7 @@ class CompanyInfo extends Model
 
     protected $fillable = [
         'company_name',
-        'logo',
+        'logo_url',
         'email',
         'phone',
         'address',
@@ -19,11 +19,7 @@ class CompanyInfo extends Model
         'country',
         'postal_code',
         'map_embed_url',
-        'social_links',
-        'about_us',
     ];
 
-    protected $casts = [
-        'social_links' => 'array', // Automatically converts JSON to array
-    ];
+ 
 }

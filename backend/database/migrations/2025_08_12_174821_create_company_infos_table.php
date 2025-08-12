@@ -20,8 +20,6 @@ return new class extends Migration
             $table->string('country')->nullable();
             $table->string('postal_code')->nullable();
             $table->text('map_embed_url')->nullable();
-            $table->json('social_links')->nullable();
-            $table->longText('about_us')->nullable();
             $table->timestamps();
         });
     }
