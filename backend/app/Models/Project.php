@@ -14,15 +14,10 @@ class Project extends Model
     protected $table = 'projects';
 
     protected $fillable = [
-        'user_id',
         'title',
         'description',
-        'image',
-        'link',
+        'image_url',
+        'project_url',
     ];
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 }

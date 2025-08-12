@@ -17,7 +17,7 @@ return new class extends Migration
         $table->id();
         $table->string('title');
         $table->text('description')->nullable();
-        $table->string('icon_class')->nullable();  // e.g., FontAwesome class name
+        $table->string('icon_class')->nullable();
         $table->string('image_url')->nullable();
         $table->timestamps();
     });

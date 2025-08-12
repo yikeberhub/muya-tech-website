@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class About extends Model
+class Service extends Model
 {
     use HasFactory;
-    protected $fillable=[
+    protected $table= 'services';
+    protected $fillable = [
         'title',
-        'content',
-        'mission',
-        'vission',
-        'image-url',
+        'description',
+        'image_url',
+        'icon_class',
     ];
+    
 }
