@@ -28,10 +28,11 @@ Route::post('/login', [LoginController::class, 'login']);
 // =========================
 // User Routes
 // =========================
-Route::prefix('user')->group(function () {
-    Route::get('/{id}', [UserController::class, 'getUser']);
-    Route::put('/{id}/update', [UserController::class, 'updateUser']);
-    Route::delete('/{id}/delete', [UserController::class, 'destroyUser']);
+Route::middleware('auth:sanctum')->prefix('users')->group(function () {
+    Route::get('/', [UserController::class, 'index']);
+    Route::get('/{id}', [UserController::class, 'show']);
+    Route::put('/{id}', [UserController::class, 'update']);
+    Route::delete('/{id}', [UserController::class, 'destroy']);
 });
 
 // =========================

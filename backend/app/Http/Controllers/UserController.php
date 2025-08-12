@@ -3,13 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
+
 {
-    public function getUser($id)
+    public function index(){
+        $users = User::all();
+        return response()->json(['users'=>$users],200);
+    }
+    
+    public function show($id)
     {
         // Return the authenticated user
         $user = User::find($id);
@@ -20,7 +27,7 @@ class UserController extends Controller
 
     }
 
-    public function updateUser(Request $request,$userId)
+    public function update(Request $request,$userId)
     {
         $user = User::find($userId);
         if (!$user){
@@ -30,8 +37,9 @@ class UserController extends Controller
             'email'=>'nullable|string|email',
             'password'=>'nullable|string',
             'name'=>'nullable|string',
+            'role'=>'nullable|string|in:admin,user',
             'bio'=>'nullable|string',
-            'avatar'=>'nullable|image|max:2048',
+            'profile_image'=>'nullable|image|max:2048',
         ]);
         $user->update($validated);
         
@@ -39,7 +47,7 @@ class UserController extends Controller
 
     }
 
-    public function destroyUser($id)
+    public function destroy($id)
     {
         // Delete the authenticated user's account
         $user = User::find($id);
