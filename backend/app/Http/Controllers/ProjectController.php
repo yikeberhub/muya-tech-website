@@ -11,13 +11,13 @@ use Illuminate\Support\Facades\Storage;
 class ProjectController extends Controller
 {
     //
-    protected function getProjects(){
+    protected function index(){
         
     $projects = Project::orderBy('created_at','desc')->get();
     return response()->json(['projects'=>$projects],200);
     }
 
-    protected function projectDetail($id){
+    protected function show($id){
         $project = Project::find($id);
         if(!$project){
             return response()->json(['message'=>'project not found'],404);
@@ -26,14 +26,14 @@ class ProjectController extends Controller
     }
 
     
-    protected function createProject(Request $request)
+    protected function store(Request $request)
     {
         // Validate incoming request data
         $validator = $request->validate([
             'title' => 'nullable|string',
             'description' => 'nullable|string',
             'image' => 'nullable|image',
-            'link' => 'nullable|url',
+            'url' => 'nullable|url',
         ]);
 
         // Handle image upload if present
@@ -42,27 +42,25 @@ class ProjectController extends Controller
             $imagePath = $request->file('image')->store('project_images', 'public');
         }
 
-        // Create and save the new project
         $project = new Project();
-        $project->title = $request->input('title', ''); // Default to empty string if not provided
+        $project->title = $request->input('title', '');
         $project->description = $request->input('description', '');
-        $project->image = $imagePath; // Store the image path in the database
-        $project->link = $request->input('link', ''); // Default to empty string if not provided
+        $project->image = $imagePath;
+        $project->url = $request->input('url', '');
         $project->save();
 
-        // Return a success response with the created project
         return response()->json([
             'message' => 'Project created successfully',
             'project' => $project
         ], 201);
     }
 
-    protected function updateProject(Request $request,$id){
+    protected function update(Request $request,$id){
       $validator = $request->validate([
         'title' => 'nullable|string',
         'description' => 'nullable|string',
         'image' => 'nullable|image',
-        'link' => 'nullable|url',
+        'url' => 'nullable|url',
     ]);
     $imagePath = null;
     if($request->hasFile('image')){
@@ -77,7 +75,7 @@ class ProjectController extends Controller
     return response()->json(['message'=>'project updated successfully'],200);
     }
 
-    protected function deleteProject($id){
+    protected function destroy($id){
      $project = Project::find($id);
      if(!$project){
         return response()->json(['message'=>'project not found'],404);
