@@ -2,8 +2,8 @@
 import '../styles/styles.css';
 import { Inter } from 'next/font/google';
 import { ReduxProvider } from '../providers/ReduxProvider';
-import Header from '../components/layout/Header'; // Import Header
-import Footer from '../components/layout/Footer'; // Import Footer
+import Header from '../components/layout/Header'; 
+import Footer from '../components/layout/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,9 +21,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ReduxProvider>
-          <div className="flex flex-col min-h-screen"> {/* Use flexbox for sticky footer */}
+          <div className="flex flex-col min-h-screen">
             <Header /> 
-            <main className="flex-grow"> {/* Main content grows to fill space */}
+            <main className="flex-grow"> 
               {children}
             </main>
             <Footer /> 

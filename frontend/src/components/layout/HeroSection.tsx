@@ -18,7 +18,7 @@ export default function HeroSection() {
           <h1
             className="
               text-4xl md:text-5xl font-extrabold font-serif mb-6 text-purple-700 dark:text-purple-400 tracking-wide leading-tight
-              drop-shadow-[0_2px_8px_rgba(128,0,255,0.7)] drop-shadow-[0_0_15px_rgba(186,85,211,0.6)]
+               drop-shadow-[0_0_15px_rgba(186,85,211,0.6)]
               animate-slide-in-left
             "
           >
@@ -48,7 +48,7 @@ export default function HeroSection() {
 
         {/* Image */}
         <div
-          className="flex-1 max-w-lg rounded-2xl overflow-hidden shadow-[0_25px_50px_rgba(128,0,255,0.4),0_15px_30px_rgba(186,85,211,0.3)] animate-slide-in-up"
+          className="flex-1 max-w-lg rounded-2xl overflow-hidden shadow-[0_15px_40px_rgba(128,0,255,0.4),0_15px_30px_rgba(186,85,211,0.3)] animate-slide-in-up"
           style={{
             animationDelay: "900ms",
             animationFillMode: "forwards",

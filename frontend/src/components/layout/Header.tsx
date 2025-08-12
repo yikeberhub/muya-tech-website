@@ -55,7 +55,7 @@ export default function Header() {
                 shadow-md hover:shadow-pink-400/50 dark:hover:shadow-pink-500/70
                 rounded-md px-3 py-2"
             >
-              <Icon className="w-5 h-5" />
+              <Icon className="w-5 h-5 fill-blue-800" />
               <span>{label}</span>
             </Link>
           ))}
@@ -63,9 +63,9 @@ export default function Header() {
           {/* Dashboard Button */}
           <Link
             href="/dashboard"
-            className="inline-flex items-center bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 
+            className="inline-flex items-center bg-gradient-to-r from-purple-600 to-indigo-600 
               text-white font-semibold px-5 py-2 rounded-full shadow-lg
-              hover:from-pink-600 hover:via-purple-600 hover:to-indigo-700
+              hover:from-pink-600 hover:to-indigo-700
               transition duration-300 ease-in-out
               active:scale-95"
           >
