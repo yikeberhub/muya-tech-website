@@ -9,31 +9,29 @@ interface ProductCardProps {
 
 export default function ProductCard({ name, description, price, imageUrl }: ProductCardProps) {
   return (
-    <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col dark:bg-gray-600 dark:text-gray-200">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col text-gray-900 dark:text-gray-200">
       <img src={imageUrl} alt={name} className="w-full h-48 object-cover" />
 
       <div className="p-6 flex flex-col flex-grow">
         <h3 className="text-2xl font-semibold mb-3">{name}</h3>
-        <p className="text-gray-700 dark:text-gray-200 mb-6 flex-grow">{description}</p>
+        <p className="text-gray-700 dark:text-gray-300 mb-6 flex-grow">{description}</p>
 
         <div className="flex items-center justify-between mb-6">
-          <span className="text-blue-600 font-bold text-xl text-center">{price}</span>
+          <span className="text-blue-600 dark:text-blue-400 font-bold text-xl text-center">{price}</span>
         </div>
 
         <div className="flex space-x-4">
-        
           <a
             href={`/products/${name.toLowerCase().replace(/\s+/g, '-')}`}
-            className="flex items-center space-x-2 text-white bg-blue-600 hover:bg-blue-700 font-semibold py-2 px-4 rounded shadow transition"
+            className="flex items-center space-x-2 text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 font-semibold py-2 px-4 rounded shadow transition"
           >
             <span>View Case Study</span>
             <FiArrowRight className="w-5 h-5" />
           </a>
 
-          {/* Example button linking to product analytics or stats page */}
           <a
             href={`/products/${name.toLowerCase().replace(/\s+/g, '-')}/analytics`}
-            className="flex items-center space-x-2 text-blue-600 hover:text-blue-800 font-semibold py-2 px-4 border border-blue-600 rounded transition"
+            className="flex items-center space-x-2 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-600 font-semibold py-2 px-4 border border-blue-600 rounded transition"
           >
             <span>View Analytics</span>
             <FiTrendingUp className="w-5 h-5" />

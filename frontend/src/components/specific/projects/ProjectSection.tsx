@@ -4,6 +4,7 @@ import ProjectOverview from "./FeaturedProjects";
 import FeaturedProjects from "./FeaturedProjects";
 import AllProjects from "./AllProjects";
 import Testimonials from "@/components/layout/Testimonials";
+import CallToAction from "@/components/shared/CallToAction";
 
 const ProjectSection: React.FC = () => {
   return (
@@ -13,6 +14,8 @@ const ProjectSection: React.FC = () => {
       <FeaturedProjects />
       <AllProjects />
       <Testimonials/>
+      <CallToAction/>
+
     </>
   );
 };

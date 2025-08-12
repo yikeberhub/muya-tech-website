@@ -16,52 +16,61 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-<header className="bg-white shadow-md fixed w-full top-0 left-0 z-50 dark:bg-gray-900">
-      <nav className="container mx-auto px-6 py-2 flex justify-between items-center">
-        <Link href="/" className="flex items-center my-0 py-0">
+    <header className="bg-white shadow-md fixed w-full top-0 left-0 z-50 dark:bg-gray-900">
+      <nav className="container mx-auto px-6 py-3 flex justify-between items-center">
+        {/* Brand */}
+        <Link href="/" className="flex items-center my-0 py-0 group">
           <Image
             src="/images/muyatech_logo.jpg"
             alt="Muya Tech Logo"
             width={70}
             height={50}
-            className="mr-2 rounded-full"
+            className="mr-2 rounded-full transition-transform duration-300 group-hover:scale-110"
           />
-          <span className="text-2xl font-bold text-blue-800 hover:text-blue-600 transition-colors dark:text-blue-400 dark:hover:text-blue-300">
+          <span className="text-2xl font-extrabold bg-gradient-to-r from-purple-700 via-pink-600 to-indigo-500 
+            bg-clip-text text-transparent 
+            hover:from-pink-600 hover:via-purple-700 hover:to-indigo-600
+            transition-all duration-500 ease-in-out select-none
+            dark:hover:from-pink-400 dark:hover:via-purple-400 dark:hover:to-indigo-400
+            ">
             Muya Tech
           </span>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-6">
-          <Link
-            href="/projects"
-            className="flex items-center text-gray-600 hover:text-blue-600 transition-colors dark:text-gray-300 dark:hover:text-blue-400"
-          >
-            <FaBriefcase className="mr-1" /> Projects
-          </Link>
-          <Link
-            href="/services"
-            className="flex items-center text-gray-600 hover:text-blue-600 transition-colors dark:text-gray-300 dark:hover:text-blue-400"
-          >
-            <FaServicestack className="mr-1" /> Services
-          </Link>
-          <Link
-            href="/about"
-            className="flex items-center text-gray-600 hover:text-blue-600 transition-colors dark:text-gray-300 dark:hover:text-blue-400"
-          >
-            <FaInfoCircle className="mr-1" /> About Us
-          </Link>
-          <Link
-            href="/contact"
-            className="flex items-center text-gray-600 hover:text-blue-600 transition-colors dark:text-gray-300 dark:hover:text-blue-400"
-          >
-            <FaPhoneAlt className="mr-1" /> Contact
-          </Link>
+        <div className="hidden md:flex items-center space-x-8">
+          {[
+            { href: "/projects", icon: FaBriefcase, label: "Projects" },
+            { href: "/services", icon: FaServicestack, label: "Services" },
+            { href: "/about", icon: FaInfoCircle, label: "About Us" },
+            { href: "/contact", icon: FaPhoneAlt, label: "Contact" },
+          ].map(({ href, icon: Icon, label }) => (
+            <Link
+              key={href}
+              href={href}
+              className="flex items-center space-x-1 text-gray-700 dark:text-gray-300
+                hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r 
+                hover:from-purple-600 hover:via-pink-600 hover:to-indigo-500
+                transition-all duration-400 ease-in-out font-semibold
+                shadow-md hover:shadow-pink-400/50 dark:hover:shadow-pink-500/70
+                rounded-md px-3 py-2"
+            >
+              <Icon className="w-5 h-5" />
+              <span>{label}</span>
+            </Link>
+          ))}
+
+          {/* Dashboard Button */}
           <Link
             href="/dashboard"
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors flex items-center"
+            className="inline-flex items-center bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 
+              text-white font-semibold px-5 py-2 rounded-full shadow-lg
+              hover:from-pink-600 hover:via-purple-600 hover:to-indigo-700
+              transition duration-300 ease-in-out
+              active:scale-95"
           >
-            <FaUserCircle className="mr-1" /> Dashboard
+            <FaUserCircle className="mr-2 w-5 h-5" />
+            Dashboard
           </Link>
 
           {/* Theme toggle button */}
@@ -89,14 +98,14 @@ export default function Header() {
                   strokeLinejoin="round"
                   strokeWidth="2"
                   d="M6 18L18 6M6 6l12 12"
-                ></path>
+                />
               ) : (
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
                   d="M4 6h16M4 12h16M4 18h16"
-                ></path>
+                />
               )}
             </svg>
           </button>
@@ -105,7 +114,7 @@ export default function Header() {
 
       {/* Mobile Navigation Drawer */}
       {isOpen && (
-        <div className="fixed inset-y-0 right-0 w-1/2 bg-white dark:bg-gray-800 z-40 shadow-lg">
+        <div className="fixed inset-y-0 right-0 w-1/2 bg-white dark:bg-gray-800 z-40 shadow-lg backdrop-blur-md">
           <div className="flex justify-end p-4">
             <button
               onClick={() => setIsOpen(false)}
@@ -124,46 +133,30 @@ export default function Header() {
                   strokeLinejoin="round"
                   strokeWidth="2"
                   d="M6 18L18 6M6 6l12 12"
-                ></path>
+                />
               </svg>
             </button>
           </div>
           <div className="flex flex-col items-center space-y-6 mt-10">
-            <Link
-              href="/projects"
-              className="flex items-center text-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 w-full text-center p-4"
-              onClick={() => setIsOpen(false)}
-            >
-              <FaBriefcase className="mr-2" /> Projects
-            </Link>
-            <Link
-              href="/services"
-              className="flex items-center text-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 w-full text-center p-4"
-              onClick={() => setIsOpen(false)}
-            >
-              <FaServicestack className="mr-2" /> Services
-            </Link>
-            <Link
-              href="/about"
-              className="flex items-center text-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 w-full text-center p-4"
-              onClick={() => setIsOpen(false)}
-            >
-              <FaInfoCircle className="mr-2" /> About Us
-            </Link>
-            <Link
-              href="/contact"
-              className="flex items-center text-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 w-full text-center p-4"
-              onClick={() => setIsOpen(false)}
-            >
-              <FaPhoneAlt className="mr-2" /> Contact
-            </Link>
-            <Link
-              href="/dashboard"
-              className="flex items-center text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-700 w-full text-center p-4"
-              onClick={() => setIsOpen(false)}
-            >
-              <FaUserCircle className="mr-2" /> Dashboard
-            </Link>
+            {[
+              { href: "/projects", icon: FaBriefcase, label: "Projects" },
+              { href: "/services", icon: FaServicestack, label: "Services" },
+              { href: "/about", icon: FaInfoCircle, label: "About Us" },
+              { href: "/contact", icon: FaPhoneAlt, label: "Contact" },
+              { href: "/dashboard", icon: FaUserCircle, label: "Dashboard" },
+            ].map(({ href, icon: Icon, label }) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setIsOpen(false)}
+                className="flex items-center w-full justify-center space-x-2
+                  text-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700
+                  p-4 rounded-md font-semibold transition"
+              >
+                <Icon className="w-5 h-5" />
+                <span>{label}</span>
+              </Link>
+            ))}
 
             {/* Theme toggle in mobile drawer */}
             <div className="mt-8">

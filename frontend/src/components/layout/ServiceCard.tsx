@@ -1,22 +1,37 @@
 // src/components/layout/ServiceCard.tsx
-import { FaArrowRight } from 'react-icons/fa';
+"use client";
+import { FaArrowRight } from "react-icons/fa";
 
 interface ServiceCardProps {
   title: string;
   description: string;
-  icon: string; // Emoji for simplicity here, can be replaced by SVG icon
+  icon: string; // Emoji or SVG icon
 }
 
 export default function ServiceCard({ title, description, icon }: ServiceCardProps) {
   return (
-    <div className="flex-1 bg-blue-50 rounded-lg p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
-      <div className="text-5xl mb-6">{icon}</div>
-      <h3 className="text-2xl font-semibold mb-2">{title}</h3>
-      <p className="text-gray-700 flex-grow">{description}</p>
+    <div
+      className="flex-1 rounded-lg p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col
+        bg-white text-gray-900 dark:bg-gray-800 dark:text-white"
+    >
+      {/* Icon */}
+      <div className="text-5xl mb-6 text-blue-600 dark:text-primary">
+        {icon}
+      </div>
 
+      {/* Title */}
+      <h3 className="text-2xl font-semibold mb-2">{title}</h3>
+
+      {/* Description */}
+      <p className="text-gray-700 flex-grow dark:text-gray-300">
+        {description}
+      </p>
+
+      {/* Learn More Link */}
       <a
         href="#"
-        className="mt-6 inline-flex items-center text-blue-600 font-semibold hover:underline"
+        className="mt-6 inline-flex items-center font-semibold hover:underline 
+          text-blue-600 dark:text-primary"
       >
         Learn More
         <FaArrowRight className="ml-2 w-4 h-4" />
