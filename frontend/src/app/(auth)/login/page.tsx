@@ -21,9 +21,8 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
+  const [alert, setAlert] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
-  // Redirect if already logged in
   useEffect(() => {
     if (isAuthenticated) {
       router.push("/dashboard");
@@ -36,15 +35,20 @@ export default function LoginPage() {
     const resultAction = await dispatch(loginUser({ email, password }));
 
     if (loginUser.fulfilled.match(resultAction)) {
-      // Show success message
-      setSuccessMessage("Login successful! Redirecting...");
       localStorage.setItem("token", resultAction.payload.token);
-      setTimeout(() => router.push("/dashboard"), 1200);
+      setAlert({ type: "success", message: "Login successful!" });
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 1000); 
+    } else {
+      setAlert({ type: "error", message: (resultAction.payload as any)?.message || "Login failed" });
     }
   };
 
   return (
     <div className="w-full max-w-md mx-auto mt-10 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+      {alert && <AlertMessage type={alert.type} message={alert.message} />}
+      
       <div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-100">
           Sign in to your account
@@ -59,9 +63,6 @@ export default function LoginPage() {
           </Link>
         </p>
       </div>
-
-      {error && <AlertMessage type="error" message={error} />}
-      {successMessage && <AlertMessage type="success" message={successMessage} />}
 
       <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
         <div className="rounded-md shadow-sm -space-y-px">
@@ -103,7 +104,6 @@ export default function LoginPage() {
           type="submit"
           className="w-full py-2 px-4"
           disabled={loading}
-          onSubmit={()=>handleSubmit}
           size="lg"
         >
           {loading ? "Signing In..." : "Sign In"}
