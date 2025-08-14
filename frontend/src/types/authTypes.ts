@@ -1,46 +1,27 @@
-// types/authTypes.ts
+export interface AuthTokens {
+  access_token: string;
+  refresh_token?: string;
+  expires_in?: number;
+}
 
-export interface User {
-    id: string;
-    name: string;
-    email: string;
-    profile_image:string;
-    role?: string; 
-  }
-  
-  export interface AuthState {
-    user: User | null;
-    accessToken: string | null;
-    refreshToken: string | null;
-    isAuthenticated: boolean;
-    loading: boolean;
-    error: string | null;
-  }
-  
+export interface AuthUser {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  profile_image?: string;
+}
 
-// Login request payload
 export interface LoginPayload {
-    email: string;
-    password: string;
-  }
-  
-  export interface LoginResponse {
-    token: string;
-    user: User;
-  }
-  
-  export interface RegisterPayload {
-    name: string;
-    email: string;
-    role:string;
-    password: string;
-    confirmPassword: string;
-  }
-  
-  export interface RegisterResponse {
-    message: string;
-    user: User;
-  }
-  
+  email: string;
+  password: string;
+}
 
-  
+export interface RegisterPayload {
+  name: string;
+  email: string;
+  password: string;
+  role?: string;
+  phone_number?: string;
+  bio?: string;
+}
