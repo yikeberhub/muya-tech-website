@@ -21,9 +21,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ReduxProvider>
-          <div className="flex flex-col min-h-screen">
+          <div className="flex flex-col min-h-screen dark:bg-gray-900">
             <Header /> 
-            <main className="flex-grow"> 
+            <main className="flex-grow dark:bg-gray-900"> 
               {children}
             </main>
             <Footer /> 
