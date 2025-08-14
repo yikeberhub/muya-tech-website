@@ -4,6 +4,13 @@ type ThemeState = {
   mode: "light" | "dark";
 };
 
+const applyTheme = (mode: "light" | "dark") => {
+  if (typeof window !== "undefined") {
+    document.documentElement.classList.toggle("dark", mode === "dark");
+    localStorage.setItem("theme", mode);
+  }
+};
+
 const getInitialTheme = (): "light" | "dark" => {
   if (typeof window !== "undefined") {
     const saved = localStorage.getItem("theme") as "light" | "dark" | null;
@@ -25,9 +32,11 @@ const themeSlice = createSlice({
   reducers: {
     setTheme: (state, action: PayloadAction<"light" | "dark">) => {
       state.mode = action.payload;
+      applyTheme(action.payload);
     },
     toggleTheme: (state) => {
       state.mode = state.mode === "light" ? "dark" : "light";
+      applyTheme(state.mode);
     },
   },
 });

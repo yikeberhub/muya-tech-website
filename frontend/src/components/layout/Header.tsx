@@ -9,10 +9,14 @@ import {
   FaInfoCircle,
   FaPhoneAlt,
   FaUserCircle,
+  FaSignInAlt, 
+  FaSignOutAlt
 } from "react-icons/fa";
-import ThemeToggle from "../ui/ThemeToggle"; // Adjust path as needed
+import ThemeToggle from "../ui/ThemeToggle";
+import { useAppSelector } from "@/redux/hooks";
 
 export default function Header() {
+  const loggedUser = useAppSelector((state) => state.auth.user);
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -44,6 +48,7 @@ export default function Header() {
             { href: "/services", icon: FaServicestack, label: "Services" },
             { href: "/about", icon: FaInfoCircle, label: "About Us" },
             { href: "/contact", icon: FaPhoneAlt, label: "Contact" },
+            
           ].map(({ href, icon: Icon, label }) => (
             <Link
               key={href}
@@ -61,6 +66,8 @@ export default function Header() {
           ))}
 
           {/* Dashboard Button */}
+          {
+            loggedUser?loggedUser.role==='admin'?(
           <Link
             href="/dashboard"
             className="inline-flex items-center bg-gradient-to-r from-purple-600 to-indigo-600 
@@ -71,7 +78,29 @@ export default function Header() {
           >
             <FaUserCircle className="mr-2 w-5 h-5" />
             Dashboard
-          </Link>
+          </Link>):(
+            <Link href="/logout"
+            className="inline-flex items-center bg-gradient-to-r from-purple-600 to-indigo-600 
+            text-white font-semibold px-5 py-2 rounded-full shadow-lg
+            hover:from-pink-600 hover:to-indigo-700
+            transition duration-300 ease-in-out
+            active:scale-95"
+        > 
+        <FaSignInAlt className="mr-2 w-5 h-5" />
+        Logout
+      </Link>   ):(
+        <Link href="/login"
+        className="inline-flex items-center bg-gradient-to-r from-purple-600 to-indigo-600 
+        text-white font-semibold px-5 py-2 rounded-full shadow-lg
+        hover:from-pink-600 hover:to-indigo-700
+        transition duration-300 ease-in-out
+        active:scale-95"
+    > 
+    <FaSignOutAlt className="mr-2 w-5 h-5" />
+    Login
+    </Link>   )
+
+    }
 
           {/* Theme toggle button */}
           <ThemeToggle />
