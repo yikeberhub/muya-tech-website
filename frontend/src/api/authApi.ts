@@ -1,15 +1,14 @@
-// src/api/authApi.ts
-import axiosInstance from './axiosInstance';
-import { LoginPayload, LoginResponse, UserData } from './types'; 
+import axios from "axios";
+import { LoginPayload, RegisterPayload, LoginResponse ,RegisterResponse} from "../types/authTypes";
 
-export const loginUser = async (email: string, password: string): Promise<LoginResponse> => {
-  const payload: LoginPayload = { email, password };
-  const response = await axiosInstance.post('/auth/login', payload);
-  return response.data;
+const API_URL = "/api/auth";
+
+export const loginUser = async (payload: LoginPayload): Promise<LoginResponse> => {
+  const { data } = await axios.post(`${API_URL}/login`, payload);
+  return data;
 };
 
-export const registerUser = async (email: string, password: string, name: string): Promise<LoginResponse> => {
-  const payload = { email, password, name };
-  const response = await axiosInstance.post('/auth/register', payload);
-  return response.data;
+export const registerUser = async (payload: RegisterPayload): Promise<RegisterResponse> => {
+  const { data } = await axios.post(`${API_URL}/register`, payload);
+  return data;
 };
