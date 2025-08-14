@@ -2,11 +2,11 @@
 
 import { useEffect } from "react";
 import { useAppSelector } from "../../redux/hook";
+import { FiUsers, FiBriefcase, FiLayers, FiMail, FiMessageCircle } from "react-icons/fi";
 
 export default function DashboardPage() {
   const theme = useAppSelector((state) => state.theme.mode);
 
-  // Apply dark mode class to <html>
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme]);
@@ -20,11 +20,11 @@ export default function DashboardPage() {
   };
 
   const cards = [
-    { label: "Users", value: stats.users },
-    { label: "Services", value: stats.services },
-    { label: "Projects", value: stats.projects },
-    { label: "Contacts", value: stats.contacts },
-    { label: "Testimonials", value: stats.testimonials },
+    { label: "Users", value: stats.users, icon: <FiUsers className="text-3xl text-purple-600 dark:text-purple-400" /> },
+    { label: "Services", value: stats.services, icon: <FiBriefcase className="text-3xl text-purple-600 dark:text-purple-400" /> },
+    { label: "Projects", value: stats.projects, icon: <FiLayers className="text-3xl text-purple-600 dark:text-purple-400" /> },
+    { label: "Contacts", value: stats.contacts, icon: <FiMail className="text-3xl text-purple-600 dark:text-purple-400" /> },
+    { label: "Testimonials", value: stats.testimonials, icon: <FiMessageCircle className="text-3xl text-purple-600 dark:text-purple-400" /> },
   ];
 
   return (
@@ -37,14 +37,20 @@ export default function DashboardPage() {
         {cards.map((card) => (
           <div
             key={card.label}
-            className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition-colors duration-300"
+            className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition-colors duration-300 flex items-center gap-4"
           >
-            <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
-              {card.label}
-            </h3>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">
-              {card.value}
-            </p>
+            {/* Icon */}
+            <div>{card.icon}</div>
+
+            {/* Stats text */}
+            <div>
+              <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
+                {card.label}
+              </h3>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                {card.value}
+              </p>
+            </div>
           </div>
         ))}
       </div>

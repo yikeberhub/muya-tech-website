@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FiHome, FiUsers, FiBriefcase, FiLayers, FiMail, FiMessageCircle } from "react-icons/fi";
+import { FiHome, FiUsers, FiBriefcase, FiLayers, FiMail, FiMessageCircle,FiInfo } from "react-icons/fi";
 import { useAppSelector } from "../../redux/hook";
 
 interface DashboardSidebarProps {
@@ -19,6 +19,8 @@ export default function DashboardSidebar({ isOpen, onClose }: DashboardSidebarPr
     { name: "Projects", href: "/dashboard/projects", icon: <FiLayers /> },
     { name: "Contacts", href: "/dashboard/contacts", icon: <FiMail /> },
     { name: "Testimonials", href: "/dashboard/testimonials", icon: <FiMessageCircle /> },
+    { name: "Company Info", href: "/dashboard/company", icon: <FiInfo /> }, 
+
   ];
 
   return (
