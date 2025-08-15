@@ -1,6 +1,6 @@
 // src/api/authApi.ts
 import axiosInstance from './axiosInstance';
-import { LoginPayload, LoginResponse, RegisterPayload } from '../types/authTypes';
+import { LoginPayload, LoginResponse, RegisterPayload } from '../types/authType';
 
 // Login API
 export const loginUserApi = async (payload: LoginPayload): Promise<LoginResponse> => {

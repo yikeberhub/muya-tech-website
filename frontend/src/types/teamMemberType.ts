@@ -4,7 +4,7 @@ export interface TeamMember {
     position: string;
     photo_url?: string;
     bio?: string;
-    social_links?: string; // JSON string or array of links
+    social_links?: string;
     created_at?: string;
     updated_at?: string;
   }

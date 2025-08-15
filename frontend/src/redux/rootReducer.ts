@@ -2,9 +2,13 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
 import authReducer from './slices/authSlice';
-import projectsReducer from './slices/projectSlice';
 import themeReducer from "./slices/themeSlice";
-import usersReducer from "./slices/userSlices";
+import usersReducer from "./slices/usersSlices";
+import projectsReducer from './slices/projectsSlice';
+import servicesReducer from './slices/servicesSlice';
+import testimonialsReducer from './slices/testimonialsSlice';
+import aboutUsReducer from './slices/aboutUsSlice';
+
 
 const rootReducer = combineReducers({
   auth: authReducer,
