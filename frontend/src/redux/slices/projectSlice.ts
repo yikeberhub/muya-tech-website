@@ -5,7 +5,7 @@ import {
   createProjectApi,
   updateProjectApi,
   deleteProjectApi,
-} from "../../api/projectsApi";
+} from "../../api/projectApi";
 import { Project, ProjectPayload } from "../../types/projectType";
 
 interface ProjectsState {
@@ -32,7 +32,7 @@ export const addProject = createAsyncThunk(
   }
 );
 
-export const editProject = createAsyncThunk(
+export const updateProject = createAsyncThunk(
   "projects/edit",
   async ({ id, payload }: { id: number; payload: ProjectPayload }) => {
     return await updateProjectApi(id, payload);
@@ -69,16 +69,31 @@ const projectsSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || "Failed to fetch projects";
       })
-      // Add
+
+          // Add
+      .addCase(addProject.pending, 
+        (state) => {
+        state.loading = true;
+        state.error = null;
+        console.log('project is pending .')
+
+      })
       .addCase(
         addProject.fulfilled,
         (state, action: PayloadAction<Project>) => {
           state.projects.push(action.payload);
+          console.log('project is added .')
         }
       )
+      .addCase(addProject.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Failed to add project";
+        console.log('failed to add project',state.error)
+      })
+      
       // Edit
       .addCase(
-        editProject.fulfilled,
+        updateProject.fulfilled,
         (state, action: PayloadAction<Project>) => {
           const index = state.projects.findIndex(
             (project) => project.id === action.payload.id

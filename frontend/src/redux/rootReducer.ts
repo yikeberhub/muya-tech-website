@@ -4,7 +4,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 import authReducer from './slices/authSlice';
 import themeReducer from "./slices/themeSlice";
 import usersReducer from "./slices/usersSlices";
-import projectsReducer from './slices/projectsSlice';
+import projectsReducer from './slices/projectSlice';
 import servicesReducer from './slices/servicesSlice';
 import testimonialsReducer from './slices/testimonialsSlice';
 import aboutUsReducer from './slices/aboutUsSlice';

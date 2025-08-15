@@ -1,6 +1,6 @@
 // src/redux/hooks.ts
 import { useDispatch, useSelector, useStore } from 'react-redux';
-import type { AppDispatch, RootState, store } from './store'; // Import 'store' itself
+import type { AppDispatch, RootState, store } from './store'; 
 
 export type AppStore = typeof store;
 

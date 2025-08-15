@@ -9,7 +9,6 @@ export interface About {
     updated_at?: string;
   }
   
-  // Payload for create/update
   export interface AboutPayload {
     title: string;
     content: string;
