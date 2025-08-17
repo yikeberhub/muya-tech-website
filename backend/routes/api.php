@@ -22,8 +22,10 @@ use App\Http\Controllers\TestimonialController;
 // =========================
 // Authentication Routes
 // =========================
-Route::post('/register', [RegisterController::class, 'register']);
-Route::post('/login', [LoginController::class, 'login']);
+Route::prefix('auth')->group(function () {
+    Route::post('/register', [RegisterController::class, 'register']);
+    Route::post('/login', [LoginController::class, 'login']);
+});
 
 // =========================
 // User Routes
