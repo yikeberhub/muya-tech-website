@@ -6,7 +6,7 @@ import {
   updateProjectApi,
   deleteProjectApi,
 } from "../../api/projectApi";
-import { Project, ProjectPayload } from "../../types/projectType";
+import { Project, ProjectPayload, ProjectResponse } from "../../types/projectType";
 
 interface ProjectsState {
   projects: Project[];
@@ -22,6 +22,7 @@ const initialState: ProjectsState = {
 
 // Thunks
 export const fetchProjects = createAsyncThunk("projects/fetch", async () => {
+  console.log('fetch projects called')
   return await getProjectsApi();
 });
 
@@ -56,13 +57,15 @@ const projectsSlice = createSlice({
       // Fetch
       .addCase(fetchProjects.pending, (state) => {
         state.loading = true;
+        console.log('project fetch is pending')
         state.error = null;
       })
       .addCase(
         fetchProjects.fulfilled,
-        (state, action: PayloadAction<Project[]>) => {
+        (state, action: PayloadAction<ProjectResponse>) => {
           state.loading = false;
-          state.projects = action.payload;
+          state.projects = action.payload.projects;
+          console.log('project fetch is fulfilled',action.payload)
         }
       )
       .addCase(fetchProjects.rejected, (state, action) => {

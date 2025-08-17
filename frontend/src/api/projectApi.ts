@@ -1,10 +1,11 @@
 // src/api/projectsApi.ts
 import axiosInstance from "./axiosInstance";
-import { Project, ProjectPayload } from "../types/projectType";
+import { Project, ProjectPayload ,ProjectResponse} from "../types/projectType";
 
 // Fetch projects
-export const getProjectsApi = async (): Promise<Project[]> => {
-  const response = await axiosInstance.get<Project[]>("/projects");
+export const getProjectsApi = async (): Promise<ProjectResponse> => {
+  const response = await axiosInstance.get<ProjectResponse>("/projects");
+  console.log('projects response',response.data)
   return response.data;
 };
 

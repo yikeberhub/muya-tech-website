@@ -14,3 +14,7 @@ export interface ProjectPayload {
   image?: string | File; 
   url?: string;
 }
+
+export interface ProjectResponse{
+  projects: Project[];
+}
