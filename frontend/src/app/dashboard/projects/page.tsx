@@ -11,7 +11,7 @@ import {
   removeProject,
   fetchProjects,
 } from "../../../redux/slices/projectSlice";
-import { Project, ProjectPayload } from "@/types/projectType";
+import { Project } from "@/types/projectType";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 export default function ProjectsPage() {
@@ -49,62 +49,69 @@ export default function ProjectsPage() {
     }
   };
 
-  const handleSaveProject = (data: ProjectPayload | FormData) => {
-    if (editProject) {
-      dispatch(updateProject({ id: editProject.id, payload: data } as any));
+  const handleSaveProject = (data: FormData, id?: number) => {
+    if (id) {
+      dispatch(updateProject({ id, payload: data } as any));
     } else {
       dispatch(addProject(data as any));
     }
+    dispatch(fetchProjects());
     setModalOpen(false);
   };
+  
+
+  if (initialLoading) {
+    return (
+      <div
+        className={`flex items-center justify-center min-h-screen ${
+          theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
+        }`}
+      >
+        <LoadingSpinner size={50} />
+      </div>
+    );
+  }
 
   return (
     <div
-      className={`relative min-h-screen transition-colors duration-300 ${
-        theme === "dark" ? "bg-gray-900 text-white" : ""
+      className={`relative min-h-screen transition-colors duration-300 p-4 ${
+        theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
       }`}
     >
-      {(initialLoading || (projectState.loading && projects.length > 0)) && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-white bg-opacity-30 backdrop-blur-sm">
-          <LoadingSpinner size={50} />
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-bold">Projects</h2>
+        <button
+          onClick={handleAddProject}
+          className="flex items-center gap-2 bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700"
+        >
+          <FaPlus />
+          Add Project
+        </button>
+      </div>
+
+      {projectState.loading && projects.length > 0 ? (
+        <div className="flex justify-center items-center h-40">
+          <LoadingSpinner size={40} />
+        </div>
+      ) : projects.length > 0 ? (
+        <ProjectsTable
+          projects={projects}
+          onDelete={handleDeleteProject}
+          onEdit={handleEditProject}
+        />
+      ) : (
+        <div className="flex justify-center items-center h-[40vh] text-gray-500">
+          No projects found. Add one to get started!
         </div>
       )}
 
-      <div className={initialLoading ? "blur-sm pointer-events-none" : ""}>
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">Projects</h2>
-          <button
-            onClick={handleAddProject}
-            className="flex items-center gap-2 bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700"
-          >
-            <FaPlus />
-            Add Project
-          </button>
-        </div>
-
-        {projects.length > 0 ? (
-          <ProjectsTable
-            projects={projects}
-            onDelete={handleDeleteProject}
-            onEdit={handleEditProject}
-          />
-        ) : (
-          !projectState.loading &&
-          !initialLoading && (
-            <div className="flex justify-center items-center h-[60vh] text-gray-500">
-              No projects found. Add one to get started!
-            </div>
-          )
-        )}
-
-        {modalOpen && (
-          <ProjectForm
-            project={editProject}
-            onClose={() => setModalOpen(false)}
-            onSave={handleSaveProject}
-          />
-        )}
-      </div>
+      {modalOpen && (
+        <ProjectForm
+          project={editProject}
+          onClose={() => setModalOpen(false)}
+          onSave={handleSaveProject}
+        />
+      )}
     </div>
   );
 }

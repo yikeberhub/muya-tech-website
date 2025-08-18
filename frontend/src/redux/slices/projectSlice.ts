@@ -6,7 +6,7 @@ import {
   updateProjectApi,
   deleteProjectApi,
 } from "../../api/projectApi";
-import { Project, ProjectPayload, ProjectResponse } from "../../types/projectType";
+import { Project,ProjectResponse } from "../../types/projectType";
 
 interface ProjectsState {
   projects: Project[];
@@ -28,14 +28,14 @@ export const fetchProjects = createAsyncThunk("projects/fetch", async () => {
 
 export const addProject = createAsyncThunk(
   "projects/add",
-  async (payload: ProjectPayload) => {
+  async (payload: FormData) => {
     return await createProjectApi(payload);
   }
 );
 
 export const updateProject = createAsyncThunk(
   "projects/edit",
-  async ({ id, payload }: { id: number; payload: ProjectPayload }) => {
+  async ({ id, payload }: { id: number; payload: FormData }) => {
     return await updateProjectApi(id, payload);
   }
 );

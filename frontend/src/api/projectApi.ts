@@ -1,6 +1,6 @@
 // src/api/projectsApi.ts
 import axiosInstance from "./axiosInstance";
-import { Project, ProjectPayload ,ProjectResponse} from "../types/projectType";
+import {Project,ProjectResponse} from "../types/projectType"
 
 // Fetch projects
 export const getProjectsApi = async (): Promise<ProjectResponse> => {
@@ -11,7 +11,7 @@ export const getProjectsApi = async (): Promise<ProjectResponse> => {
 
 // Create project (supports image upload)
 export const createProjectApi = async (
-  payload: ProjectPayload | FormData
+  payload:FormData
 ): Promise<Project> => {
   const data = payload instanceof FormData ? payload : JSON.stringify(payload);
   const response = await axiosInstance.post<Project>("/projects", data);
@@ -21,10 +21,11 @@ export const createProjectApi = async (
 // Update project (supports image upload)
 export const updateProjectApi = async (
   id: number,
-  payload: ProjectPayload | FormData
+  payload: FormData
 ): Promise<Project> => {
   const data = payload instanceof FormData ? payload : JSON.stringify(payload);
   const response = await axiosInstance.put<Project>(`/projects/${id}`, data);
+  console.log('project updated',response.data)
   return response.data;
 };
 

@@ -8,12 +8,6 @@ export interface Project {
   updated_at?: string;
 }
 
-export interface ProjectPayload {
-  title: string;
-  description: string;
-  image?: string | File; 
-  url?: string;
-}
 
 export interface ProjectResponse{
   projects: Project[];

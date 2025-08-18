@@ -1,55 +1,68 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Project, ProjectPayload } from "@/types/projectType";
+import { useEffect, useState } from "react";
+import { Project } from "@/types/projectType";
 
 interface ProjectFormProps {
   project: Project | null;
   onClose: () => void;
-  onSave: (data: ProjectPayload | FormData) => void;
+  onSave: (data: FormData, id?: number) => void;
 }
 
 export default function ProjectForm({ project, onClose, onSave }: ProjectFormProps) {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [image, setImage] = useState<File | string | null>(null);
-  const [url, setUrl] = useState("");
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [url, setUrl] = useState<string>("");
+  const [newImage, setNewImage] = useState<File | null>(null);
+  const [oldImage, setOldImage] = useState<string | null>(null);
 
+  // Initialize form values
   useEffect(() => {
     if (project) {
-      setTitle(project.title);
-      setDescription(project.description);
-      setImage(project.image || null);
+      setTitle(project.title || "");
+      setDescription(project.description || "");
       setUrl(project.url || "");
+      setOldImage(project.image || null);
+      setNewImage(null); // reset new file
+    } else {
+      setTitle("");
+      setDescription("");
+      setUrl("");
+      setOldImage(null);
+      setNewImage(null);
     }
   }, [project]);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setNewImage(e.target.files[0]);
+      console.log('new image is',newImage)
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (image instanceof File) {
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
-      formData.append("image", image);
-      if (url) formData.append("url", url);
-      onSave(formData);
-    } else {
-      onSave({
-        title,
-        description,
-        image: typeof image === "string" ? image : undefined,
-        url: url || undefined,
-      });
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    if (url) formData.append("url", url);
+
+    if (newImage) {
+        formData.append("image", newImage);
+        console.log("New image selected:", newImage.name);
     }
-  };
+
+    for (let pair of formData.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
+    }
+
+    onSave(formData, project?.id);
+};
 
   return (
     <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white dark:bg-gray-800 p-6 rounded-lg w-96"
-      >
+      <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-6 rounded-lg w-96">
         <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-100">
           {project ? "Edit Project" : "Add Project"}
         </h2>
@@ -58,7 +71,6 @@ export default function ProjectForm({ project, onClose, onSave }: ProjectFormPro
           <span className="text-gray-700 dark:text-gray-200">Title</span>
           <input
             type="text"
-            placeholder="Enter project title"
             className="w-full p-2 border rounded dark:bg-gray-700 dark:text-gray-200"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -69,7 +81,6 @@ export default function ProjectForm({ project, onClose, onSave }: ProjectFormPro
         <label className="block mb-3">
           <span className="text-gray-700 dark:text-gray-200">Description</span>
           <textarea
-            placeholder="Enter project description"
             className="w-full p-2 border rounded dark:bg-gray-700 dark:text-gray-200"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -82,15 +93,16 @@ export default function ProjectForm({ project, onClose, onSave }: ProjectFormPro
           <input
             type="file"
             className="w-full p-2 border rounded dark:bg-gray-700 dark:text-gray-200"
-            onChange={(e) => e.target.files && setImage(e.target.files[0])}
+            onChange={handleFileChange}
           />
+          {oldImage && !newImage && <p className="mt-1 text-sm text-gray-500">Current Image: {oldImage}</p>}
+          {newImage && <p className="mt-1 text-sm text-gray-500">New Image selected: {newImage.name}</p>}
         </label>
 
         <label className="block mb-3">
           <span className="text-gray-700 dark:text-gray-200">Project URL</span>
           <input
             type="text"
-            placeholder="Enter project URL"
             className="w-full p-2 border rounded dark:bg-gray-700 dark:text-gray-200"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
@@ -98,17 +110,10 @@ export default function ProjectForm({ project, onClose, onSave }: ProjectFormPro
         </label>
 
         <div className="flex justify-end gap-2">
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-3 py-1 rounded border"
-          >
+          <button type="button" onClick={onClose} className="px-3 py-1 rounded border">
             Cancel
           </button>
-          <button
-            type="submit"
-            className="px-3 py-1 rounded bg-purple-600 text-white"
-          >
+          <button type="submit" className="px-3 py-1 rounded bg-purple-600 text-white">
             Save
           </button>
         </div>
