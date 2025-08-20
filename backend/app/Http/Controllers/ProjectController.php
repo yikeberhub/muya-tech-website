@@ -74,38 +74,29 @@ class ProjectController extends Controller
             'url' => 'nullable|url',
         ]);
 
-        Log::info('Incoming request data for project update:', $request->all());
 
         if ($request->hasFile('image')) {
-            // Delete old image if it exists
             if ($project->image) {
                 if (Storage::disk('public')->exists($project->image)) {
                     Storage::disk('public/project_images')->delete($project->image);
-                    Log::info('Deleted old image: ' . $project->image);
-                } else {
-                    Log::warning('Old image not found on disk: ' . $project->image);
                 }
             }
 
-            // Store the new image
             $imagePath = $request->file('image')->store('project_images', 'public');
             $data['image'] = $imagePath;
-            Log::info('New image stored: ' . $imagePath);
-        } else {
-            // If no new image is uploaded, ensure the existing image path is retained
-            // unless there's a specific instruction to clear it.
-            // Laravel's update method will only update the fields present in $data.
-            // So if 'image' is not in $data, the old image path will remain untouched.
-            Log::info('No new image file uploaded. Retaining existing image path.');
+            print('New image stored: ' . $imagePath);
+        } 
+        else{
+            return response()->json(['message' =>'there is no image file to update'],400);
         }
 
-        // Update the project with the validated data
         $project->update($data);
 
         // Fetch the fresh model data after update to include any changes
         return response()->json([
             'message' => 'Project updated successfully',
             'project' => new ProjectResource($project->fresh()),
+            'image passed'=>$request->file('image'),
         ], 200);
     }
     protected function destroy($id){

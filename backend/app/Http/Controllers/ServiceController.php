@@ -4,39 +4,71 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use Illuminate\Http\Request;
+use App\Http\Resources\ServiceResource;
+use Illuminate\Support\Facades\Storage;
+
 
 class ServiceController extends Controller
 {
-    public function index()
-    {
-        return response()->json(Service::all(), 200);
-    }
 
-    public function show($id)
-    {
-        $service = Service::findOrFail($id);
-        return response()->json($service, 200);
-    }
+public function index()
+{
+    $services = Service::all();
+    $services = ServiceResource::collection($services);
+    return response()->json(['services' => $services], 200);    
+}
+
+public function show($id)
+{
+    $service = Service::findOrFail($id);
+    return new ServiceResource($service);
+}
+
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'icon' => 'nullable|string', // icon path or class
+            'icon_class' => 'nullable|string',
+            'image' => 'nullable|file|image',
         ]);
-
+    
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('service_images', 'public');
+            $validated['image_url'] = $imagePath;
+        }
+    
         $service = Service::create($validated);
+    
         return response()->json($service, 201);
     }
+    
 
     public function update(Request $request, $id)
     {
         $service = Service::findOrFail($id);
-        $service->update($request->all());
+    
+        $data = $request->validate([
+            'title' => 'nullable|string',
+            'description' => 'nullable|string',
+            'icon_class' => 'nullable|string',
+            'image' => 'nullable|file|image',
+        ]);
+    
+        if ($request->hasFile('image')) {
+            if ($service->image_url) {
+                Storage::disk('public')->delete($service->image_url);
+            }
+            $imagePath = $request->file('image')->store('service_images', 'public');
+            $data['image_url'] = $imagePath;
+        }
+    
+        $service->update($data);
+    
         return response()->json($service, 200);
     }
-
+    
     public function destroy($id)
     {
         Service::destroy($id);
