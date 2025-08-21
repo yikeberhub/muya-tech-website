@@ -19,9 +19,9 @@ class ServiceResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'icon' => $this->icon_class, // optional
-            'image_url' => $this->image_url 
-                ? url('storage/' . $this->image_url) 
+            'icon' => $this->icon_class, 
+            'image' => $this->image_url 
+                ? url(Storage::url($this->image_url)) 
                 : null,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

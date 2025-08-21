@@ -29,9 +29,9 @@ public function show($id)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'icon_class' => 'nullable|string',
-            'image' => 'nullable|file|image',
+            'description' => 'required|string',
+            'icon_class' => 'required|string',
+            'image' => 'required|file|image',
         ]);
     
         if ($request->hasFile('image')) {
@@ -46,28 +46,29 @@ public function show($id)
     
 
     public function update(Request $request, $id)
-    {
-        $service = Service::findOrFail($id);
-    
-        $data = $request->validate([
-            'title' => 'nullable|string',
-            'description' => 'nullable|string',
-            'icon_class' => 'nullable|string',
-            'image' => 'nullable|file|image',
-        ]);
-    
-        if ($request->hasFile('image')) {
-            if ($service->image_url) {
-                Storage::disk('public')->delete($service->image_url);
-            }
-            $imagePath = $request->file('image')->store('service_images', 'public');
-            $data['image_url'] = $imagePath;
+{
+    $service = Service::findOrFail($id);
+    $data = $request->validate([
+        'title' => 'required|string',
+        'description' => 'required|string',
+        'icon_class' => 'required|string',
+        'image' => 'required|file|image',
+    ]);
+
+
+    if ($request->hasFile('image')) {
+        if ($service->image_url) {
+            Storage::disk('public')->delete($service->image_url);
         }
-    
-        $service->update($data);
-    
-        return response()->json($service, 200);
+        $imagePath = $request->file('image')->store('service_images', 'public');
+        $data['image_url'] = $imagePath;
     }
+
+    $service->update($data);
+
+    return response()->json($service, 200);
+}
+
     
     public function destroy($id)
     {
