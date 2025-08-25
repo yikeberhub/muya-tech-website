@@ -63,7 +63,7 @@ Route::prefix('company-info')->group(function () {
 // =========================
 // Team
 // =========================
-Route::prefix('team')->group(function () {
+Route::prefix('team-members')->group(function () {
     Route::get('/', [TeamController::class, 'index']);
     Route::get('/{id}', [TeamController::class, 'show']);
     Route::post('/', [TeamController::class, 'store']);

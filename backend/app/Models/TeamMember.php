@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class TeamMember extends Model
 {
     use HasFactory;
+    protected $casts = [
+        'social_links' => 'array',
+    ];
     protected $fillable = [
         'name',
         'position',

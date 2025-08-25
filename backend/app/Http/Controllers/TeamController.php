@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TeamMemberResource;
 use App\Models\TeamMember;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TeamController extends Controller
 {
-    // Fetch all team members
     public function index()
+    
     {
-        return response()->json(TeamMember::all(), 200);
+        $teamMembers = TeamMember::all();
+        $teams  = TeamMemberResource::collection($teamMembers);
+        return response()->json($teams, 200);
     }
 
-    // Fetch single team member
     public function show($id)
     {
         $teamMember = TeamMember::find($id);
@@ -25,22 +28,26 @@ class TeamController extends Controller
         return response()->json($teamMember, 200);
     }
 
-    // Create a new team member
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'name'        => 'required|string|max:255',
-            'role'        => 'required|string|max:255',
+            'position'    => 'required|string|max:255',
             'bio'         => 'nullable|string',
-            'image_url'   => 'nullable|string',
+            'social_links'=> 'nullable|json',
+            'photo_url'   => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $teamMember = TeamMember::create($request->all());
+        if ($request->hasFile('photo_url')) {
+            $path = $request->file('photo_url')->store('team_images', 'public');
+            $data['photo_url'] = $path;
+        }
+
+        $teamMember = TeamMember::create($data);
 
         return response()->json($teamMember, 201);
     }
 
-    // Update a team member
     public function update(Request $request, $id)
     {
         $teamMember = TeamMember::find($id);
@@ -49,7 +56,23 @@ class TeamController extends Controller
             return response()->json(['message' => 'Team member not found'], 404);
         }
 
-        $teamMember->update($request->all());
+        $data = $request->validate([
+            'name'        => 'sometimes|string|max:255',
+            'position'    => 'sometimes|string|max:255',
+            'bio'         => 'nullable|string',
+            'social_links'=> 'nullable|json',
+            'photo_url'   => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($request->hasFile('photo_url')) {
+            if ($teamMember->photo_url) {
+                Storage::disk('public')->delete($teamMember->photo_url);
+            }
+            $path = $request->file('photo_url')->store('team_images', 'public');
+            $data['photo_url'] = $path;
+        }
+
+        $teamMember->update($data);
 
         return response()->json($teamMember, 200);
     }
@@ -61,6 +84,10 @@ class TeamController extends Controller
 
         if (!$teamMember) {
             return response()->json(['message' => 'Team member not found'], 404);
+        }
+
+        if ($teamMember->photo_url) {
+            Storage::disk('public')->delete($teamMember->photo_url);
         }
 
         $teamMember->delete();
