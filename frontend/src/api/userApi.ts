@@ -1,9 +1,9 @@
 import apiClient from "./apiClient";
-import { User, UserPayload } from "../types/userType";
+import { User, UserPayload, UsersResponse } from "../types/userType";
 
 // Fetch all users
-export const getUsersApi = async (): Promise<User[]> => {
-  const response = await apiClient.get<User[]>("/users");
+export const getUsersApi = async (): Promise<UsersResponse> => {
+  const response = await apiClient.get<UsersResponse>("/users");
   return response.data;
 };
 

@@ -1,6 +1,12 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { User, UserPayload } from "../../types/userType";
-import {getUsersApi,getUserApi,updateUserApi,deleteUserApi, createUserApi} from "../../api/userApi";
+import { User, UserPayload, UsersResponse } from "../../types/userType";
+import {
+  getUsersApi,
+  getUserApi,
+  updateUserApi,
+  deleteUserApi,
+  createUserApi,
+} from "../../api/userApi";
 
 interface UserState {
   users: User[];
@@ -17,9 +23,12 @@ const initialState: UserState = {
 };
 
 // Fetch all users
-export const fetchUsers = createAsyncThunk<User[]>(
+export const fetchUsers = createAsyncThunk<UsersResponse>(
   "users/fetchUsers",
-  async () => await getUsersApi()
+  async () => {
+    const res = await getUsersApi();
+    return res; 
+  }
 );
 
 // Fetch single user
@@ -35,10 +44,10 @@ export const createUser = createAsyncThunk<User, UserPayload>(
 );
 
 // Update user
-export const updateUser = createAsyncThunk<User, { id: number; data: Partial<UserPayload> }>(
-  "users/updateUser",
-  async ({ id, data }) => await updateUserApi(id, data)
-);
+export const updateUser = createAsyncThunk<
+  User,
+  { id: number; data: Partial<UserPayload> }
+>("users/updateUser", async ({ id, data }) => await updateUserApi(id, data));
 
 // Delete user
 export const deleteUser = createAsyncThunk<number, number>(
@@ -56,10 +65,12 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // Fetch users
-      .addCase(fetchUsers.pending, (state) => { state.loading = true; })
-      .addCase(fetchUsers.fulfilled, (state, action: PayloadAction<User[]>) => {
+      .addCase(fetchUsers.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchUsers.fulfilled, (state, action: PayloadAction<UsersResponse>) => {
         state.loading = false;
-        state.users = action.payload;
+        state.users = action.payload.users;
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.loading = false;
@@ -67,7 +78,9 @@ const userSlice = createSlice({
       })
 
       // Fetch single user
-      .addCase(fetchUser.pending, (state) => { state.loading = true; })
+      .addCase(fetchUser.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(fetchUser.fulfilled, (state, action: PayloadAction<User>) => {
         state.loading = false;
         state.user = action.payload;
@@ -78,7 +91,9 @@ const userSlice = createSlice({
       })
 
       // Add user
-      .addCase(createUser.pending, (state) => { state.loading = true; })
+      .addCase(createUser.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(createUser.fulfilled, (state, action: PayloadAction<User>) => {
         state.loading = false;
         state.users.push(action.payload);
@@ -89,10 +104,14 @@ const userSlice = createSlice({
       })
 
       // Update user
-      .addCase(updateUser.pending, (state) => { state.loading = true; })
+      .addCase(updateUser.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(updateUser.fulfilled, (state, action: PayloadAction<User>) => {
         state.loading = false;
-        state.users = state.users.map(u => u.id === action.payload.id ? action.payload : u);
+        state.users = state.users.map((u) =>
+          u.id === action.payload.id ? action.payload : u
+        );
         if (state.user?.id === action.payload.id) state.user = action.payload;
       })
       .addCase(updateUser.rejected, (state, action) => {
@@ -101,10 +120,12 @@ const userSlice = createSlice({
       })
 
       // Delete user
-      .addCase(deleteUser.pending, (state) => { state.loading = true; })
+      .addCase(deleteUser.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(deleteUser.fulfilled, (state, action: PayloadAction<number>) => {
         state.loading = false;
-        state.users = state.users.filter(u => u.id !== action.payload);
+        state.users = state.users.filter((u) => u.id !== action.payload);
         if (state.user?.id === action.payload) state.user = null;
       })
       .addCase(deleteUser.rejected, (state, action) => {

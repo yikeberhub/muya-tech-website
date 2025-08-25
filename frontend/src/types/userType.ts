@@ -21,3 +21,10 @@ export interface User {
     bio?: string;
   }
   
+  export interface UsersResponse{
+    users:User[];
+    message?:string;
+  }
+  export interface users{
+    users:User[];
+  }

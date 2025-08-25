@@ -64,7 +64,6 @@ const servicesSlice = createSlice({
         (state, action: PayloadAction<ServiceResponse>) => {
           state.loading = false;
           state.services = action.payload.services;
-          console.log("service fetch is fulfilled", action.payload);
         }
       )
       .addCase(fetchServices.rejected, (state, action) => {

@@ -30,7 +30,6 @@ export default function ServicesPage() {
     const fetchData = async () => {
       setInitialLoading(true);
       await dispatch(fetchServices());
-      console.log('service lists', services);
       setInitialLoading(false);
     };
     fetchData();

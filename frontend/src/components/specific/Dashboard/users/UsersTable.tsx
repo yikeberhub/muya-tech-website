@@ -39,7 +39,7 @@ export default function UsersTable({ users, onEdit, onDelete }: UsersTableProps)
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-          {users.map((user) => (
+          {users?.map((user) => (
             <tr key={user.id}>
               <td className="px-6 py-4 whitespace-nowrap">
                 {user.profile_image ? (

@@ -9,7 +9,7 @@ import UserForm from "../../../components/specific/Dashboard/users/UserForm";
 
 export default function UsersPage() {
   const theme = useAppSelector((state) => state.theme.mode);
-  const { users, loading } = useAppSelector((state) => state.users); // users slice
+  const { users, loading } = useAppSelector((state) => state.users);
   const dispatch = useAppDispatch();
 
   const [modalOpen, setModalOpen] = useState(false);
