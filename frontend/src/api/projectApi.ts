@@ -1,11 +1,10 @@
 // src/api/projectsApi.ts
-import axiosInstance from "./axiosInstance";
 import {Project,ProjectResponse} from "../types/projectType"
+import apiClient from "./apiClient";
 
 // Fetch projects
 export const getProjectsApi = async (): Promise<ProjectResponse> => {
-  const response = await axiosInstance.get<ProjectResponse>("/projects");
-  console.log('projects response',response.data)
+  const response = await apiClient.get<ProjectResponse>("/projects");
   return response.data;
 };
 
@@ -13,23 +12,26 @@ export const getProjectsApi = async (): Promise<ProjectResponse> => {
 export const createProjectApi = async (
   payload:FormData
 ): Promise<Project> => {
-  const data = payload instanceof FormData ? payload : JSON.stringify(payload);
-  const response = await axiosInstance.post<Project>("/projects", data);
+  const response = await apiClient.post<Project>("/projects", payload);
   return response.data;
 };
 
-// Update project (supports image upload)
+
 export const updateProjectApi = async (
   id: number,
-  payload: FormData
+  payload: FormData | Record<string, any>
 ): Promise<Project> => {
-  const data = payload instanceof FormData ? payload : JSON.stringify(payload);
-  const response = await axiosInstance.put<Project>(`/projects/${id}`, data);
-  console.log('project updated',response.data)
+  if (payload instanceof FormData) {
+    payload.append("_method", "PUT");
+  }
+
+  const response = await apiClient.post<Project>(`/projects/${id}`, payload);
   return response.data;
 };
+
+
 
 // Delete project
 export const deleteProjectApi = async (id: number): Promise<void> => {
-  await axiosInstance.delete(`/projects/${id}`);
+  await apiClient.delete(`/projects/${id}`);
 };

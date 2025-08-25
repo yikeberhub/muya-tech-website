@@ -66,37 +66,38 @@ class ProjectController extends Controller
         if (!$project) {
             return response()->json(['message' => 'Project not found'], 404);
         }
-
+    
         $data = $request->validate([
             'title' => 'nullable|string', 
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'url' => 'nullable|url',
         ]);
-
-
+        Log::info('Project update request data: ' . print_r($request->all(), true));
+        
+        if(!$data){
+            return response()->json(['message' => 'No data provided for update'], 400);
+        }
+    
         if ($request->hasFile('image')) {
             if ($project->image) {
                 if (Storage::disk('public')->exists($project->image)) {
-                    Storage::disk('public/project_images')->delete($project->image);
+                    Storage::disk('public')->delete($project->image);
                 }
             }
-
+    
             $imagePath = $request->file('image')->store('project_images', 'public');
             $data['image'] = $imagePath;
-            print('New image stored: ' . $imagePath);
-        } 
-        else{
-            return response()->json(['message' =>'there is no image file to update'],400);
+        } else {
+            unset($data['image']);
         }
-
-        $project->update($data);
-
-        // Fetch the fresh model data after update to include any changes
+    
+        $project->fill($data);
+        $project->save();
+    
         return response()->json([
             'message' => 'Project updated successfully',
             'project' => new ProjectResource($project->fresh()),
-            'image passed'=>$request->file('image'),
         ], 200);
     }
     protected function destroy($id){

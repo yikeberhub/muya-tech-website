@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Http\Resources\ServiceResource;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -48,23 +49,30 @@ public function show($id)
     public function update(Request $request, $id)
 {
     $service = Service::findOrFail($id);
-    $data = $request->validate([
-        'title' => 'required|string',
-        'description' => 'required|string',
-        'icon_class' => 'required|string',
-        'image' => 'required|file|image',
+
+    $validated = $request->validate([
+        'title' => 'nullable|string|max:255',
+        'description' => 'nullable|string',
+        'icon_class' => 'nullable|string',
+        'image' => 'nullable|file|image',
     ]);
 
+    // Log entire request, not just validated (optional)
+    Log::info('Project update request data: ' . print_r($request->all(), true));
 
     if ($request->hasFile('image')) {
-        if ($service->image_url) {
+        // Delete old image if exists
+        if ($service->image_url && Storage::disk('public')->exists($service->image_url)) {
             Storage::disk('public')->delete($service->image_url);
         }
+
+        // Store new image
         $imagePath = $request->file('image')->store('service_images', 'public');
-        $data['image_url'] = $imagePath;
+        $validated['image_url'] = $imagePath;
     }
 
-    $service->update($data);
+    $service->fill($validated);
+    $service->save();
 
     return response()->json($service, 200);
 }

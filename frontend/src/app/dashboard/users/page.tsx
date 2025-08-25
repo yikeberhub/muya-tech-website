@@ -1,26 +1,29 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { FiEdit, FiTrash2, FiUserPlus } from "react-icons/fi";
-import { useAppSelector } from "@/redux/hook";
+import { useEffect, useState } from "react";
+import { FiUserPlus } from "react-icons/fi";
+import { useAppSelector, useAppDispatch } from "@/redux/hook";
+import { fetchUsers, deleteUser, createUser, updateUser } from "../../../redux/slices/userSlice";
 import UsersTable from "../../../components/specific/Dashboard/users/UsersTable";
 import UserForm from "../../../components/specific/Dashboard/users/UserForm";
 
 export default function UsersPage() {
   const theme = useAppSelector((state) => state.theme.mode);
-
-  const [users, setUsers] = useState([
-    { id: 1, name: "John Doe", email: "john@example.com", role: "Admin" },
-    { id: 2, name: "Jane Smith", email: "jane@example.com", role: "User" },
-  ]);
+  const { users, loading } = useAppSelector((state) => state.users); // users slice
+  const dispatch = useAppDispatch();
 
   const [modalOpen, setModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<any>(null);
 
-  // Apply dark mode class to <html>
+  // Apply dark mode
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme]);
+
+  // Fetch users when page loads
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
 
   const handleEdit = (user: any) => {
     setEditingUser(user);
@@ -28,7 +31,7 @@ export default function UsersPage() {
   };
 
   const handleDelete = (id: number) => {
-    setUsers(users.filter((u) => u.id !== id));
+    dispatch(deleteUser(id));
   };
 
   const handleAddNew = () => {
@@ -38,9 +41,9 @@ export default function UsersPage() {
 
   const handleSave = (user: any) => {
     if (editingUser) {
-      setUsers(users.map((u) => (u.id === user.id ? user : u)));
+      dispatch(updateUser(user));
     } else {
-      setUsers([...users, { ...user, id: Date.now() }]);
+      dispatch(createUser(user));
     }
     setModalOpen(false);
   };
@@ -60,11 +63,11 @@ export default function UsersPage() {
         </button>
       </div>
 
-      <UsersTable
-        users={users}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
+      {loading ? (
+        <p className="text-gray-500 dark:text-gray-300">Loading users...</p>
+      ) : (
+        <UsersTable users={users} onEdit={handleEdit} onDelete={handleDelete} />
+      )}
 
       {modalOpen && (
         <UserForm

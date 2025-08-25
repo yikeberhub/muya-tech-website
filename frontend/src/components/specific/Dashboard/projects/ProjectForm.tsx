@@ -16,14 +16,13 @@ export default function ProjectForm({ project, onClose, onSave }: ProjectFormPro
   const [newImage, setNewImage] = useState<File | null>(null);
   const [oldImage, setOldImage] = useState<string | null>(null);
 
-  // Initialize form values
   useEffect(() => {
     if (project) {
       setTitle(project.title || "");
       setDescription(project.description || "");
       setUrl(project.url || "");
       setOldImage(project.image || null);
-      setNewImage(null); // reset new file
+      setNewImage(null);
     } else {
       setTitle("");
       setDescription("");
@@ -33,15 +32,11 @@ export default function ProjectForm({ project, onClose, onSave }: ProjectFormPro
     }
   }, [project]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setNewImage(e.target.files[0]);
-      console.log('new image is',newImage)
-    }
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    console.log('project submit clicked')
 
     const formData = new FormData();
     formData.append("title", title);
@@ -49,16 +44,16 @@ export default function ProjectForm({ project, onClose, onSave }: ProjectFormPro
     if (url) formData.append("url", url);
 
     if (newImage) {
-        formData.append("image", newImage);
-        console.log("New image selected:", newImage.name);
+      formData.append("image", newImage);
     }
 
     for (let pair of formData.entries()) {
-        console.log(`${pair[0]}: ${pair[1]}`);
+      console.log(`${pair[0]}: ${pair[1]}`);
     }
+    console.log('project is',project)
 
     onSave(formData, project?.id);
-};
+  };
 
   return (
     <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
@@ -93,10 +88,18 @@ export default function ProjectForm({ project, onClose, onSave }: ProjectFormPro
           <input
             type="file"
             className="w-full p-2 border rounded dark:bg-gray-700 dark:text-gray-200"
-            onChange={handleFileChange}
+            onChange={(e) => e.target.files && setNewImage(e.target.files[0])}
           />
-          {oldImage && !newImage && <p className="mt-1 text-sm text-gray-500">Current Image: {oldImage}</p>}
-          {newImage && <p className="mt-1 text-sm text-gray-500">New Image selected: {newImage.name}</p>}
+          {oldImage && !newImage && (
+            <p className="mt-1 text-sm text-gray-500">
+              Current Image: <span className="font-semibold">{oldImage}</span>
+            </p>
+          )}
+          {newImage && (
+            <p className="mt-1 text-sm text-gray-500">
+              New Image selected: <span className="font-semibold">{newImage.name}</span>
+            </p>
+          )}
         </label>
 
         <label className="block mb-3">

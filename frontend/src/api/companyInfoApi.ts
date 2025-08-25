@@ -1,4 +1,4 @@
-import axiosInstance from "./axiosInstance";
+import axiosInstance from "./apiClient";
 import { CompanyInfo, CompanyInfoPayload } from "../types/companyInfoType";
 
 // Fetch company info

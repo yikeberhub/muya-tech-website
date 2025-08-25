@@ -1,5 +1,5 @@
 // src/api/authApi.ts
-import axiosInstance from './axiosInstance';
+import axiosInstance from './apiClient';
 import { LoginPayload, LoginResponse, RegisterPayload } from '../types/authType';
 
 // Login API

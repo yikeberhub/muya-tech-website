@@ -29,7 +29,7 @@ export const fetchUser = createAsyncThunk<User, number>(
 );
 
 // Create user
-export const addUser = createAsyncThunk<User, UserPayload>(
+export const createUser = createAsyncThunk<User, UserPayload>(
   "users/addUser",
   async (user) => await createUserApi(user)
 );
@@ -78,12 +78,12 @@ const userSlice = createSlice({
       })
 
       // Add user
-      .addCase(addUser.pending, (state) => { state.loading = true; })
-      .addCase(addUser.fulfilled, (state, action: PayloadAction<User>) => {
+      .addCase(createUser.pending, (state) => { state.loading = true; })
+      .addCase(createUser.fulfilled, (state, action: PayloadAction<User>) => {
         state.loading = false;
         state.users.push(action.payload);
       })
-      .addCase(addUser.rejected, (state, action) => {
+      .addCase(createUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Failed to add user";
       })

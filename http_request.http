@@ -1,0 +1,13 @@
+PUT http://localhost:8000/api/projects/6
+Authorization: Bearer 17|YegFXxOfhj0RkVkVS3PpL5K91ZD1RFPdpvJR6y6J7c56a840
+Content-Type: application/json
+
+{
+  "title": "title of proj",
+  "description": "description of project"
+}
+
+# {
+#  "email": "yikeber50@gmail.com",
+#  "password": "yike1234"
+# }

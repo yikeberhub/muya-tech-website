@@ -13,6 +13,7 @@ import {
 } from "../../../redux/slices/projectSlice";
 import { Project } from "@/types/projectType";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import { datalist } from "framer-motion/m";
 
 export default function ProjectsPage() {
   const theme = useAppSelector((state) => state.theme.mode);
@@ -50,10 +51,11 @@ export default function ProjectsPage() {
   };
 
   const handleSaveProject = (data: FormData, id?: number) => {
+    console.log('save project called',data)
     if (id) {
-      dispatch(updateProject({ id, payload: data } as any));
+      dispatch(updateProject({ id, payload: data } ));
     } else {
-      dispatch(addProject(data as any));
+      dispatch(addProject(data));
     }
     dispatch(fetchProjects());
     setModalOpen(false);

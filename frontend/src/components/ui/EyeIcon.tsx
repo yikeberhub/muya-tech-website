@@ -12,7 +12,7 @@ const EyeIcon: React.FC<EyeIconProps> = ({ isVisible, onClick }) => {
       className="p-1 focus:outline-none "
       onClick={onClick}
     >
-      {isVisible ? (
+      {!isVisible ? (
         // 👁 Eye icon (password visible)
         <svg
           xmlns="http://www.w3.org/2000/svg"

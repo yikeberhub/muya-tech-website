@@ -2,8 +2,8 @@ export interface Service {
     id: number;
     title: string;
     description: string;
-    image_url?: string;
-    icon_class?: string;
+    image?: string;
+    icon?: string;
     created_at?: string;
     updated_at?: string;
   }
@@ -12,7 +12,12 @@ export interface Service {
   export interface ServicePayload {
     title: string;
     description: string;
-    image_url?: string;
+    image?: string;
     icon_class?: string;
   }
   
+
+  export interface ServiceResponse{
+    services: Service[];
+    message?: string;
+  }

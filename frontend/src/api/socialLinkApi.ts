@@ -1,4 +1,4 @@
-import axiosInstance from "./axiosInstance";
+import axiosInstance from "./apiClient";
 import { SocialLink, SocialLinkPayload } from "../types/socialLinkType";
 
 // Fetch social links

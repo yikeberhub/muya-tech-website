@@ -1,4 +1,4 @@
-import axiosInstance from "./axiosInstance";
+import axiosInstance from "./apiClient";
 import { About, AboutPayload } from "../types/aboutUsType";
 
 // Fetch about sections
