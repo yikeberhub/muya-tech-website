@@ -1,33 +1,16 @@
+"use client";
 // src/components/layout/Projects.tsx
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import ProjectCard from './ProjectCard';
+import { useRouter } from 'next/navigation';
 
-const projectsData = [
-  {
-    id: 1,
-    title: "Balemuya Online Marketplace Platform",
-    description:
-      "A comprehensive online marketplace designed to connect buyers and sellers efficiently with a user-friendly interface and secure transactions.",
-    imageUrl: "/images/projects/balemuya_prof.jpg",
-  },
-  {
-    id: 2,
-    title: "E-commerce Store",
-    description:
-      "A full-featured e-commerce platform built with React and Django, featuring product catalogs, shopping carts, and payment integration.",
-    imageUrl: "/images/projects/ecom_home.png",
-  },
-  {
-    id: 3,
-    title: "Online Cinema Booking Platform",
-    description:
-      "A multi-user cinema booking system that allows users to browse movies, select showtimes, and reserve seats easily online.",
-    imageUrl: "/images/projects/cinema-home.png",
-  },
-];
+
 
 
 export default function Projects() {
-  return (
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const projectsData = useAppSelector((state) => state.projects.projects);  return (
     <section id="projects" className="py-20 bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-200">
       <div className="container mx-auto text-center max-w-6xl px-4">
         <h2 className="text-4xl font-bold mb-4">Projects</h2>

@@ -1,17 +1,14 @@
 // src/components/layout/ProjectCard.tsx
 import { FaArrowRight } from 'react-icons/fa';
+import {Project} from "../../types/projectType";
 
-interface ProjectCardProps {
-  title: string;
-  description: string;
-  imageUrl: string;
-}
 
-export default function ProjectCard({ title, description, imageUrl }: ProjectCardProps) {
+
+export default function ProjectCard({ title, description, image }: Project) {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col hover:shadow-xl dark:hover:shadow-gray-700 transition-shadow duration-300">
       <img
-        src={imageUrl}
+        src={image}
         alt={title}
         className="w-full h-48 object-cover"
       />
