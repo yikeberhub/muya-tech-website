@@ -1,28 +1,36 @@
-// src/components/layout/Services.tsx
-import ServiceCard from "./ServiceCard";
+"use client";
 
-const servicesData = [
-  {
-    id: 1,
-    title: "Web Development",
-    description: "Building responsive and performant websites and applications.",
-    icon: "💻",
-  },
-  {
-    id: 2,
-    title: "UI/UX Design",
-    description: "Crafting intuitive user interfaces and delightful experiences.",
-    icon: "🎨",
-  },
-  {
-    id: 3,
-    title: "API Integration",
-    description: "Connecting apps with reliable and scalable APIs.",
-    icon: "🔗",
-  },
-];
+// src/components/layout/Services.tsx
+
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import ServiceCard from "./ServiceCard";
+import { useRouter } from "next/navigation";
+
+// const servicesData = [
+//   {
+//     id: 1,
+//     title: "Web Development",
+//     description: "Building responsive and performant websites and applications.",
+//     icon: "💻",
+//   },
+//   {
+//     id: 2,
+//     title: "UI/UX Design",
+//     description: "Crafting intuitive user interfaces and delightful experiences.",
+//     icon: "🎨",
+//   },
+//   {
+//     id: 3,
+//     title: "API Integration",
+//     description: "Connecting apps with reliable and scalable APIs.",
+//     icon: "🔗",
+//   },
+// ];
 
 export default function Services() {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const servicesData = useAppSelector((state) => state.services.services);
   return (
     <section
       id="services"
