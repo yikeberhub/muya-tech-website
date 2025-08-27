@@ -38,7 +38,7 @@ export const fetchUser = createAsyncThunk<User, number>(
 );
 
 // Create user
-export const createUser = createAsyncThunk<User, UserPayload>(
+export const createUser = createAsyncThunk<User, FormData>(
   "users/addUser",
   async (user) => await createUserApi(user)
 );
@@ -46,7 +46,7 @@ export const createUser = createAsyncThunk<User, UserPayload>(
 // Update user
 export const updateUser = createAsyncThunk<
   User,
-  { id: number; data: Partial<UserPayload> }
+  { id: number; data: Partial<FormData> }
 >("users/updateUser", async ({ id, data }) => await updateUserApi(id, data));
 
 // Delete user

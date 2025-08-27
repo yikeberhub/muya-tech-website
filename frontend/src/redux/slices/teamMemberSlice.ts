@@ -9,13 +9,13 @@ import {
 import { TeamMember, TeamMemberPayload } from "../../types/teamMemberType";
 
 interface TeamMemberState {
-  data: TeamMember[];
+  teamMembers: TeamMember[];
   loading: boolean;
   error: string | null;
 }
 
 const initialState: TeamMemberState = {
-  data: [],
+  teamMembers: [],
   loading: false,
   error: null,
 };
@@ -25,6 +25,7 @@ export const fetchTeamMembers = createAsyncThunk(
   "teamMembers/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
+      console.log('fetch api is called');
       return await getTeamMembersApi();
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -33,9 +34,9 @@ export const fetchTeamMembers = createAsyncThunk(
 );
 
 // Add a team member
-export const addTeamMember = createAsyncThunk(
+export const createTeamMember = createAsyncThunk(
   "teamMembers/add",
-  async (payload: TeamMemberPayload, { rejectWithValue }) => {
+  async (payload: FormData, { rejectWithValue }) => {
     try {
       return await createTeamMemberApi(payload);
     } catch (error: any) {
@@ -45,9 +46,9 @@ export const addTeamMember = createAsyncThunk(
 );
 
 // Update a team member
-export const editTeamMember = createAsyncThunk(
+export const updateTeamMember = createAsyncThunk(
   "teamMembers/edit",
-  async ({ id, payload }: { id: number; payload: TeamMemberPayload }, { rejectWithValue }) => {
+  async ({ id, payload }: { id: number; payload: FormData }, { rejectWithValue }) => {
     try {
       return await updateTeamMemberApi(id, payload);
     } catch (error: any) {
@@ -57,7 +58,7 @@ export const editTeamMember = createAsyncThunk(
 );
 
 // Delete a team member
-export const removeTeamMember = createAsyncThunk(
+export const deleteTeamMember = createAsyncThunk(
   "teamMembers/remove",
   async (id: number, { rejectWithValue }) => {
     try {
@@ -81,7 +82,7 @@ const teamMemberSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchTeamMembers.fulfilled, (state, action: PayloadAction<TeamMember[]>) => {
-        state.data = action.payload;
+        state.teamMembers = action.payload;
         state.loading = false;
       })
       .addCase(fetchTeamMembers.rejected, (state, action) => {
@@ -89,17 +90,17 @@ const teamMemberSlice = createSlice({
         state.error = action.payload as string;
       })
       // Add
-      .addCase(addTeamMember.fulfilled, (state, action: PayloadAction<TeamMember>) => {
-        state.data.push(action.payload);
+      .addCase(createTeamMember.fulfilled, (state, action: PayloadAction<TeamMember>) => {
+        state.teamMembers.push(action.payload);
       })
       // Edit
-      .addCase(editTeamMember.fulfilled, (state, action: PayloadAction<TeamMember>) => {
-        const index = state.data.findIndex((tm) => tm.id === action.payload.id);
-        if (index !== -1) state.data[index] = action.payload;
+      .addCase(updateTeamMember.fulfilled, (state, action: PayloadAction<TeamMember>) => {
+        const index = state.teamMembers.findIndex((tm) => tm.id === action.payload.id);
+        if (index !== -1) state.teamMembers[index] = action.payload;
       })
       // Remove
-      .addCase(removeTeamMember.fulfilled, (state, action: PayloadAction<number>) => {
-        state.data = state.data.filter((tm) => tm.id !== action.payload);
+      .addCase(deleteTeamMember.fulfilled, (state, action: PayloadAction<number>) => {
+        state.teamMembers = state.teamMembers.filter((tm) => tm.id !== action.payload);
       });
   },
 });

@@ -9,13 +9,13 @@ import {
 import { SocialLink, SocialLinkPayload } from "../../types/socialLinkType";
 
 interface SocialLinkState {
-  data: SocialLink[];
+  socialLinks: SocialLink[];
   loading: boolean;
   error: string | null;
 }
 
 const initialState: SocialLinkState = {
-  data: [],
+  socialLinks: [],
   loading: false,
   error: null,
 };
@@ -33,9 +33,9 @@ export const fetchSocialLinks = createAsyncThunk(
 );
 
 // Add social link
-export const addSocialLink = createAsyncThunk(
+export const createSocialLink = createAsyncThunk(
   "socialLinks/add",
-  async (payload: SocialLinkPayload, { rejectWithValue }) => {
+  async (payload: FormData, { rejectWithValue }) => {
     try {
       return await createSocialLinkApi(payload);
     } catch (error: any) {
@@ -45,9 +45,9 @@ export const addSocialLink = createAsyncThunk(
 );
 
 // Update social link
-export const editSocialLink = createAsyncThunk(
+export const updateSocialLink = createAsyncThunk(
   "socialLinks/edit",
-  async ({ id, payload }: { id: number; payload: SocialLinkPayload }, { rejectWithValue }) => {
+  async ({ id, payload }: { id: number; payload: FormData }, { rejectWithValue }) => {
     try {
       return await updateSocialLinkApi(id, payload);
     } catch (error: any) {
@@ -57,7 +57,7 @@ export const editSocialLink = createAsyncThunk(
 );
 
 // Delete social link
-export const removeSocialLink = createAsyncThunk(
+export const deleteSocialLink = createAsyncThunk(
   "socialLinks/remove",
   async (id: number, { rejectWithValue }) => {
     try {
@@ -81,7 +81,7 @@ const socialLinkSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchSocialLinks.fulfilled, (state, action: PayloadAction<SocialLink[]>) => {
-        state.data = action.payload;
+        state.socialLinks = action.payload;
         state.loading = false;
       })
       .addCase(fetchSocialLinks.rejected, (state, action) => {
@@ -89,17 +89,17 @@ const socialLinkSlice = createSlice({
         state.error = action.payload as string;
       })
       // Add
-      .addCase(addSocialLink.fulfilled, (state, action: PayloadAction<SocialLink>) => {
-        state.data.push(action.payload);
+      .addCase(createSocialLink.fulfilled, (state, action: PayloadAction<SocialLink>) => {
+        state.socialLinks.push(action.payload);
       })
       // Edit
-      .addCase(editSocialLink.fulfilled, (state, action: PayloadAction<SocialLink>) => {
-        const index = state.data.findIndex((sl) => sl.id === action.payload.id);
-        if (index !== -1) state.data[index] = action.payload;
+      .addCase(updateSocialLink.fulfilled, (state, action: PayloadAction<SocialLink>) => {
+        const index = state.socialLinks.findIndex((sl) => sl.id === action.payload.id);
+        if (index !== -1) state.socialLinks[index] = action.payload;
       })
       // Remove
-      .addCase(removeSocialLink.fulfilled, (state, action: PayloadAction<number>) => {
-        state.data = state.data.filter((sl) => sl.id !== action.payload);
+      .addCase(deleteSocialLink.fulfilled, (state, action: PayloadAction<number>) => {
+        state.socialLinks = state.socialLinks.filter((sl) => sl.id !== action.payload);
       });
   },
 });

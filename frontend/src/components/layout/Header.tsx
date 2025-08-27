@@ -13,11 +13,21 @@ import {
   FaSignOutAlt
 } from "react-icons/fa";
 import ThemeToggle from "../ui/ThemeToggle";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { logout } from "@/redux/slices/authSlice";
+import {useRouter} from "next/navigation";
 
 export default function Header() {
   const loggedUser = useAppSelector((state) => state.auth.user);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleLogout = ()=>{
+    console.log('logout clicked')
+     dispatch(logout());
+     router.push("/login");
+  }
 
   return (
     <header className="bg-white shadow-md fixed w-full top-0 left-0 z-50 dark:bg-gray-900">
@@ -86,7 +96,7 @@ export default function Header() {
             transition duration-300 ease-in-out
             active:scale-95"
         > 
-        <FaSignInAlt className="mr-2 w-5 h-5" />
+        <FaSignInAlt className="mr-2 w-5 h-5" onClick={handleLogout} />
         Logout
       </Link>   ):(
         <Link href="/login"

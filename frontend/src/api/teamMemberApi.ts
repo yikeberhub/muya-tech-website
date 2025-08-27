@@ -1,30 +1,36 @@
-import axiosInstance from "./apiClient";
+import apiClient from "./apiClient";
 import { TeamMember, TeamMemberPayload } from "../types/teamMemberType";
 
 // Fetch team members
 export const getTeamMembersApi = async (): Promise<TeamMember[]> => {
-  const response = await axiosInstance.get("/team-members");
+  const response = await apiClient.get("/team-members");
+  console.log('response teams data',response.data);
+
   return response.data;
 };
 
 // Add team member
 export const createTeamMemberApi = async (
-  payload: TeamMemberPayload
+  payload: FormData
 ): Promise<TeamMember> => {
-  const response = await axiosInstance.post("/team-members", payload);
+  const response = await apiClient.post("/team-members", payload);
+  console.log('response teams data',response.data);
   return response.data;
 };
 
 // Update team member
 export const updateTeamMemberApi = async (
   id: number,
-  payload: TeamMemberPayload
+  payload: FormData
 ): Promise<TeamMember> => {
-  const response = await axiosInstance.put(`/team-members/${id}`, payload);
+  if (payload instanceof FormData) {
+    payload.append("_method", "PUT");
+  }
+  const response = await apiClient.post(`/team-members/${id}`, payload);
   return response.data;
 };
 
 // Delete team member
 export const deleteTeamMemberApi = async (id: number): Promise<void> => {
-  await axiosInstance.delete(`/team-members/${id}`);
+  await apiClient.delete(`/team-members/${id}`);
 };

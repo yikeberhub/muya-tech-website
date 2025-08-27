@@ -44,13 +44,13 @@ export default function UsersTable({ users, onEdit, onDelete }: UsersTableProps)
               <td className="px-6 py-4 whitespace-nowrap">
                 {user.profile_image ? (
                   <img
-                    src={user.profile_image}
+                    src={user?.profile_image}
                     alt={user.name}
                     className="w-10 h-10 rounded-full object-cover"
                   />
                 ) : (
                   <div className="w-10 h-10 rounded-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-sm text-gray-700 dark:text-gray-200">
-                    {user.name.charAt(0)}
+                    {user?.name?.charAt(0)}
                   </div>
                 )}
               </td>

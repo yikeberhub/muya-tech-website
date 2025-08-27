@@ -3,7 +3,12 @@
 import { useEffect, useState } from "react";
 import { FiUserPlus } from "react-icons/fi";
 import { useAppSelector, useAppDispatch } from "@/redux/hook";
-import { fetchUsers, deleteUser, createUser, updateUser } from "../../../redux/slices/userSlice";
+import {
+  fetchUsers,
+  deleteUser,
+  createUser,
+  updateUser,
+} from "../../../redux/slices/userSlice";
 import UsersTable from "../../../components/specific/Dashboard/users/UsersTable";
 import UserForm from "../../../components/specific/Dashboard/users/UserForm";
 
@@ -39,11 +44,12 @@ export default function UsersPage() {
     setModalOpen(true);
   };
 
-  const handleSave = (user: any) => {
+  // receives FormData from UserForm
+  const handleSave = (formData: FormData) => {
     if (editingUser) {
-      dispatch(updateUser(user));
+      dispatch(updateUser({ id: editingUser.id, data: formData }));
     } else {
-      dispatch(createUser(user));
+      dispatch(createUser(formData));
     }
     setModalOpen(false);
   };
@@ -64,7 +70,9 @@ export default function UsersPage() {
       </div>
 
       {loading ? (
-        <p className="text-gray-500 dark:text-gray-300">Loading users...</p>
+        <div className="flex justify-center items-center py-20">
+          <div className="w-12 h-12 border-4 border-purple-600 border-dashed rounded-full animate-spin"></div>
+        </div>
       ) : (
         <UsersTable users={users} onEdit={handleEdit} onDelete={handleDelete} />
       )}

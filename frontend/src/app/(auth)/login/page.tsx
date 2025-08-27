@@ -25,7 +25,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/dashboard");
+      router.push("/");
     }
   }, [isAuthenticated, router]);
 
@@ -38,7 +38,7 @@ export default function LoginPage() {
       localStorage.setItem("token", resultAction.payload.token);
       setAlert({ type: "success", message: "Login successful!" });
       setTimeout(() => {
-        router.push("/dashboard");
+        router.push("/");
       }, 1000); 
     } else {
       setAlert({ type: "error", message: (resultAction.payload as any)?.message || "Login failed" });

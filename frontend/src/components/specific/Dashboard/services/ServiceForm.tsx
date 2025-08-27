@@ -20,7 +20,7 @@ export default function ServiceForm({ service, onSave, onClose }: ServiceFormPro
     if (service) {
       setTitle(service.title || "");
       setDescription(service.description || "");
-      setIconClass(service.icon_class || "");
+      setIconClass(service.icon || "");
     } 
 
   }, [service]);

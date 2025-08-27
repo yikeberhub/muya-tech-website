@@ -4,6 +4,7 @@ import { User, UserPayload, UsersResponse } from "../types/userType";
 // Fetch all users
 export const getUsersApi = async (): Promise<UsersResponse> => {
   const response = await apiClient.get<UsersResponse>("/users");
+  console.log('users data',response.data);
   return response.data;
 };
 
@@ -14,16 +15,24 @@ export const getUserApi = async (id: number): Promise<User> => {
 };
 
 // Create a new user
-export const createUserApi = async (user: UserPayload): Promise<User> => {
+export const createUserApi = async (user: FormData): Promise<User> => {
   const response = await apiClient.post<User>("/users", user);
   return response.data;
 };
 
 // Update a user by ID
-export const updateUserApi = async (id: number, user: Partial<UserPayload>): Promise<User> => {
-  const response = await apiClient.put<User>(`/users/${id}`, user);
+export const updateUserApi = async (
+  id: number,
+  payload: FormData | Record<string, any>
+): Promise<User> => {
+  if (payload instanceof FormData) {
+    payload.append("_method", "PUT");
+  }
+
+  const response = await apiClient.post<User>(`/users/${id}`, payload);
   return response.data;
 };
+
 
 // Delete a user by ID
 export const deleteUserApi = async (id: number): Promise<void> => {

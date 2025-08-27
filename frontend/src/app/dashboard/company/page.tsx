@@ -1,56 +1,90 @@
 "use client";
 
-import { useState } from "react";
-import CompanyInfoForm from "../../../components/specific/Dashboard/company/CompanyInfoForm";
-import CompanyInfoTable from "../../../components/specific/Dashboard/company/CompanyInfoTable"; // ✅ import table
-import { FaPlus } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { FiPlus } from "react-icons/fi";
+import { useAppSelector, useAppDispatch } from "@/redux/hook";
+import {
+  fetchCompanyInfo,
+  createCompanyInfo,
+  updateCompanyInfo,
+  deleteCompanyInfo,
+} from "@/redux/slices/companyInfoSlice";
+import CompanyInfoTable from "@/components/specific/Dashboard/company/CompanyInfoTable";
+import CompanyInfoForm from "@/components/specific/Dashboard/company/CompanyInfoForm";
 
-export default function CompanyPage() {
-  const [companyInfos, setCompanyInfos] = useState([
-    { id: 1, name: "Tech Corp", email: "info@techcorp.com", phone: "123-456-7890" },
-  ]);
+export default function CompanyInfoPage() {
+  const theme = useAppSelector((state) => state.theme.mode);
+  const { companyInfos, loading } = useAppSelector((state) => state.companyInfo);
+  const dispatch = useAppDispatch();
 
-  const [selectedInfo, setSelectedInfo] = useState<any>(null);
-  const [formOpen, setFormOpen] = useState(false); // start closed
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingCompany, setEditingCompany] = useState<any>(null);
 
-  const handleEdit = (info: any) => {
-    setSelectedInfo(info);
-    setFormOpen(true);
+  // Apply dark mode
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme]);
+
+  // Fetch company info on page load
+  useEffect(() => {
+    dispatch(fetchCompanyInfo());
+  }, [dispatch]);
+
+  const handleEdit = (company: any) => {
+    setEditingCompany(company);
+    setModalOpen(true);
   };
 
-  const handleSave = (info: any) => {
-    if (info.id) {
-      setCompanyInfos(prev => prev.map(i => (i.id === info.id ? info : i)));
+  const handleDelete = (id: number) => {
+    dispatch(deleteCompanyInfo(id));
+  };
+
+  const handleAddNew = () => {
+    setEditingCompany(null);
+    setModalOpen(true);
+  };
+
+  const handleSave = (formData: FormData) => {
+    if (editingCompany) {
+      dispatch(updateCompanyInfo({ id: editingCompany.id, data: formData }));
     } else {
-      setCompanyInfos(prev => [...prev, { ...info, id: Date.now() }]);
+      dispatch(createCompanyInfo(formData));
     }
-    setFormOpen(false);
-    setSelectedInfo(null);
-  };
-
-  const handleCloseForm = () => {
-    setFormOpen(false);
-    setSelectedInfo(null);
+    dispatch(fetchCompanyInfo());
+    setModalOpen(false);
   };
 
   return (
-    <div className="transition-colors duration-300 p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Company Info</h2>
+    <div className="transition-colors duration-300">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
+          Company Info
+        </h2>
         <button
-          className="flex items-center gap-2 px-3 py-1 bg-purple-600 text-white rounded hover:bg-purple-700"
-          onClick={() => setFormOpen(true)}
+          onClick={handleAddNew}
+          className="flex items-center gap-2 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
         >
-          <FaPlus /> Add
+          <FiPlus />
+          Add Info
         </button>
       </div>
 
-      <CompanyInfoTable companyInfos={companyInfos} onEdit={handleEdit} />
+      {loading ? (
+        <div className="flex justify-center items-center py-20">
+          <div className="w-12 h-12 border-4 border-purple-600 border-dashed rounded-full animate-spin"></div>
+        </div>
+      ) : (
+        <CompanyInfoTable
+          companyInfos={companyInfos}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      )}
 
-      {formOpen && (
+      {modalOpen && (
         <CompanyInfoForm
-          info={selectedInfo}
-          onClose={handleCloseForm}
+          company={editingCompany}
+          onClose={() => setModalOpen(false)}
           onSave={handleSave}
         />
       )}
