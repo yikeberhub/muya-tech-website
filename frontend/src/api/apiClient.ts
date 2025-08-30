@@ -20,13 +20,15 @@ apiClient.interceptors.request.use(
     // Attach token if exists
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
+      
     }
 
     if (config.data instanceof FormData) {
-      delete config.headers["Content-Type"]; // let axios set correct boundary
-      console.log("➡ Sending FormData request");
+      delete config.headers["Content-Type"];
+      console.log("➡ Sending FormData request!!");
       for (const [key, value] of config.data.entries()) {
         console.log(`${key}:`, value);
+
       }
     } else if (config.data) {
       config.headers["Content-Type"] = "application/json";

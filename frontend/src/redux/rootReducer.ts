@@ -6,6 +6,7 @@ import themeReducer from "./slices/themeSlice";
 import usersReducer from "./slices/userSlice";
 import projectsReducer from './slices/projectSlice';
 import servicesReducer from './slices/serviceSlice';
+import productReducer from './slices/productSlice';
 import testimonialsReducer from './slices/testimonialsSlice';
 import aboutUsReducer from './slices/aboutUsSlice';
 import teamMembersReducer from "./slices/teamMemberSlice";
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   users: usersReducer,
   projects:projectsReducer,
   services: servicesReducer,
+  products: productReducer,
   testimonials: testimonialsReducer,
   aboutUs: aboutUsReducer,
   teamMembers: teamMembersReducer,

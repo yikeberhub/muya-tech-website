@@ -11,6 +11,7 @@ import {
   FiInfo,
   FiUserCheck,
   FiShare2,
+  FiBox, // ✅ added for Products
 } from "react-icons/fi";
 import { useAppSelector } from "../../redux/hook";
 
@@ -27,6 +28,7 @@ export default function DashboardSidebar({ isOpen, onClose }: DashboardSidebarPr
     { name: "Users", href: "/dashboard/users", icon: <FiUsers /> },
     { name: "Services", href: "/dashboard/services", icon: <FiBriefcase /> },
     { name: "Projects", href: "/dashboard/projects", icon: <FiLayers /> },
+    { name: "Products", href: "/dashboard/products", icon: <FiBox /> }, // ✅ Added Products
     { name: "Contacts", href: "/dashboard/contacts", icon: <FiMail /> },
     { name: "Testimonials", href: "/dashboard/testimonials", icon: <FiMessageCircle /> },
     { name: "Company Info", href: "/dashboard/company", icon: <FiInfo /> },

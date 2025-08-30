@@ -96,7 +96,7 @@ Route::prefix('services')->group(function () {
 // =========================
 // Featured Products
 // =========================
-Route::prefix('featured-products')->group(function () {
+Route::prefix('products')->group(function () {
     Route::get('/', [FeaturedProductController::class, 'index']);
     Route::get('/{id}', [FeaturedProductController::class, 'show']);
     Route::post('/', [FeaturedProductController::class, 'store']);
