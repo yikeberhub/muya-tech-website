@@ -51,6 +51,7 @@ const testimonialSlice = createSlice({
       .addCase(fetchTestimonials.pending, (state) => { state.loading = true; })
       .addCase(fetchTestimonials.fulfilled, (state, action) => {
         state.loading = false;
+        console.log('fetched testimonials',action.payload);
         state.testimonials = action.payload.testimonials;
       })
       .addCase(fetchTestimonials.rejected, (state, action) => {

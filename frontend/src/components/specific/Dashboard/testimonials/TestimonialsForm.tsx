@@ -9,20 +9,35 @@ interface TestimonialFormProps {
   onSave: (data: FormData, id?: number) => void;
 }
 
-export default function TestimonialForm({ testimonial, onCancel, onSave }: TestimonialFormProps) {
+export default function TestimonialForm({
+  testimonial,
+  onCancel,
+  onSave,
+}: TestimonialFormProps) {
   const [name, setName] = useState(testimonial?.name || "");
+  const [position, setPosition] = useState(testimonial?.position || "");
+  const [company, setCompany] = useState(testimonial?.company || "");
   const [message, setMessage] = useState(testimonial?.message || "");
+  const [rating, setRating] = useState(testimonial?.rating || 0);
+  const [image, setImage] = useState<File | null>(null);
 
   useEffect(() => {
     setName(testimonial?.name || "");
+    setPosition(testimonial?.position || "");
+    setCompany(testimonial?.company || "");
     setMessage(testimonial?.message || "");
+    setRating(testimonial?.rating || 0);
   }, [testimonial]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("name", name);
+    formData.append("position", position);
+    formData.append("company", company);
     formData.append("message", message);
+    formData.append("rating", rating.toString());
+    if (image) formData.append("image", image);
 
     if (testimonial?.id) {
       onSave(formData, testimonial.id);
@@ -50,6 +65,22 @@ export default function TestimonialForm({ testimonial, onCancel, onSave }: Testi
           className="w-full mb-3 p-2 border rounded dark:bg-gray-700 dark:text-gray-200"
         />
 
+        <input
+          type="text"
+          placeholder="Position"
+          value={position}
+          onChange={(e) => setPosition(e.target.value)}
+          className="w-full mb-3 p-2 border rounded dark:bg-gray-700 dark:text-gray-200"
+        />
+
+        <input
+          type="text"
+          placeholder="Company"
+          value={company}
+          onChange={(e) => setCompany(e.target.value)}
+          className="w-full mb-3 p-2 border rounded dark:bg-gray-700 dark:text-gray-200"
+        />
+
         <textarea
           placeholder="Message"
           value={message}
@@ -57,6 +88,31 @@ export default function TestimonialForm({ testimonial, onCancel, onSave }: Testi
           required
           className="w-full mb-3 p-2 border rounded dark:bg-gray-700 dark:text-gray-200"
         />
+
+        <input
+          type="number"
+          placeholder="Rating"
+          value={rating}
+          onChange={(e) => setRating(Number(e.target.value))}
+          min={0}
+          max={5}
+          className="w-full mb-3 p-2 border rounded dark:bg-gray-700 dark:text-gray-200"
+        />
+
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImage(e.target.files?.[0] || null)}
+          className="w-full mb-3 p-2 border rounded dark:bg-gray-700 dark:text-gray-200"
+        />
+
+        {testimonial?.image_url && (
+          <img
+            src={testimonial.image_url}
+            alt={testimonial.name}
+            className="h-16 w-16 object-cover rounded-full mb-3"
+          />
+        )}
 
         <div className="flex justify-end gap-2">
           <button
