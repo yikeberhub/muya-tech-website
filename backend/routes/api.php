@@ -13,6 +13,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CompanyInfoController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\FeaturedProductController;
 use App\Http\Controllers\HeroSectionController;
@@ -124,6 +125,17 @@ Route::prefix('social-links')->group(function () {
     Route::post('/', [SocialLinkController::class, 'store']);
     Route::put('/{id}', [SocialLinkController::class, 'update']);
     Route::delete('/{id}', [SocialLinkController::class, 'destroy']);
+});
+
+// =========================
+// Contacts
+// =========================
+Route::prefix('contacts')->group(function () {
+    Route::get('/', [ContactController::class, 'index']);
+    Route::get('/{id}', [ContactController::class, 'show']);
+    Route::post('/', [ContactController::class, 'store']);
+    Route::put('/{id}', [ContactController::class, 'update']);
+    Route::delete('/{id}', [ContactController::class, 'destroy']);
 });
 
 // =========================

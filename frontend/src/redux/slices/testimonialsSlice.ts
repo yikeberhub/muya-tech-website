@@ -1,78 +1,66 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { Testimonial, TestimonialPayload } from "../../types/testimonialType";
-import { getTestimonialsApi, getTestimonialApi, createTestimonialApi, updateTestimonialApi, deleteTestimonialApi } from "../../api/testimonialApi";
+// redux/slices/testimonialSlice.ts
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { Testimonial } from "../../types/testimonialType";
+import {
+  fetchTestimonialsApi,
+  createTestimonialApi,
+  updateTestimonialApi,
+  deleteTestimonialApi,
+} from "../../api/testimonialApi";
 
 interface TestimonialState {
   testimonials: Testimonial[];
-  testimonial: Testimonial | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: TestimonialState = {
   testimonials: [],
-  testimonial: null,
   loading: false,
   error: null,
 };
 
-export const fetchTestimonials = createAsyncThunk<Testimonial[]>(
-  "testimonials/fetchTestimonials",
-  async () => await getTestimonialsApi()
-);
+// Async thunks
+export const fetchTestimonials = createAsyncThunk("testimonials/fetch", async () => {
+  return await fetchTestimonialsApi();
+});
 
-export const fetchTestimonial = createAsyncThunk<Testimonial, number>(
-  "testimonials/fetchTestimonial",
-  async (id) => await getTestimonialApi(id)
-);
+export const addTestimonial = createAsyncThunk("testimonials/add", async (data: FormData) => {
+  return await createTestimonialApi(data);
+});
 
-export const addTestimonial = createAsyncThunk<Testimonial, TestimonialPayload>(
-  "testimonials/addTestimonial",
-  async (data) => await createTestimonialApi(data)
-);
-
-export const updateTestimonial = createAsyncThunk<Testimonial, { id: number; data: Partial<TestimonialPayload> }>(
-  "testimonials/updateTestimonial",
-  async ({ id, data }) => await updateTestimonialApi(id, data)
-);
-
-export const deleteTestimonial = createAsyncThunk<number, number>(
-  "testimonials/deleteTestimonial",
-  async (id) => {
-    await deleteTestimonialApi(id);
-    return id;
+export const editTestimonial = createAsyncThunk(
+  "testimonials/edit",
+  async ({ id, payload }: { id: number; payload: FormData }) => {
+    return await updateTestimonialApi(id, payload);
   }
 );
 
+export const removeTestimonial = createAsyncThunk("testimonials/delete", async (id: number) => {
+  return await deleteTestimonialApi(id);
+});
+
+// Slice
 const testimonialSlice = createSlice({
   name: "testimonials",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // fetch all
+      // Fetch
       .addCase(fetchTestimonials.pending, (state) => { state.loading = true; })
-      .addCase(fetchTestimonials.fulfilled, (state, action: PayloadAction<Testimonial[]>) => {
+      .addCase(fetchTestimonials.fulfilled, (state, action) => {
         state.loading = false;
-        state.testimonials = action.payload;
+        state.testimonials = action.payload.testimonials;
       })
       .addCase(fetchTestimonials.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Failed to fetch testimonials";
       })
-      // fetch single
-      .addCase(fetchTestimonial.pending, (state) => { state.loading = true; })
-      .addCase(fetchTestimonial.fulfilled, (state, action: PayloadAction<Testimonial>) => {
-        state.loading = false;
-        state.testimonial = action.payload;
-      })
-      .addCase(fetchTestimonial.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || "Failed to fetch testimonial";
-      })
-      // add
+
+      // Add
       .addCase(addTestimonial.pending, (state) => { state.loading = true; })
-      .addCase(addTestimonial.fulfilled, (state, action: PayloadAction<Testimonial>) => {
+      .addCase(addTestimonial.fulfilled, (state, action) => {
         state.loading = false;
         state.testimonials.push(action.payload);
       })
@@ -80,25 +68,25 @@ const testimonialSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || "Failed to add testimonial";
       })
-      // update
-      .addCase(updateTestimonial.pending, (state) => { state.loading = true; })
-      .addCase(updateTestimonial.fulfilled, (state, action: PayloadAction<Testimonial>) => {
+
+      // Edit
+      .addCase(editTestimonial.pending, (state) => { state.loading = true; })
+      .addCase(editTestimonial.fulfilled, (state, action) => {
         state.loading = false;
         state.testimonials = state.testimonials.map(t => t.id === action.payload.id ? action.payload : t);
-        if (state.testimonial?.id === action.payload.id) state.testimonial = action.payload;
       })
-      .addCase(updateTestimonial.rejected, (state, action) => {
+      .addCase(editTestimonial.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Failed to update testimonial";
       })
-      // delete
-      .addCase(deleteTestimonial.pending, (state) => { state.loading = true; })
-      .addCase(deleteTestimonial.fulfilled, (state, action: PayloadAction<number>) => {
+
+      // Delete
+      .addCase(removeTestimonial.pending, (state) => { state.loading = true; })
+      .addCase(removeTestimonial.fulfilled, (state, action) => {
         state.loading = false;
         state.testimonials = state.testimonials.filter(t => t.id !== action.payload);
-        if (state.testimonial?.id === action.payload) state.testimonial = null;
       })
-      .addCase(deleteTestimonial.rejected, (state, action) => {
+      .addCase(removeTestimonial.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Failed to delete testimonial";
       });

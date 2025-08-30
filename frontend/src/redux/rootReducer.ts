@@ -12,6 +12,7 @@ import aboutUsReducer from './slices/aboutUsSlice';
 import teamMembersReducer from "./slices/teamMemberSlice";
 import SocialLinksReducer from "./slices/socialLinkSlice";
 import companyInfoReducer from "./slices/companyInfoSlice";
+import contactsReducer from "./slices/contactSlice"
 
 
 const rootReducer = combineReducers({
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   testimonials: testimonialsReducer,
   aboutUs: aboutUsReducer,
   teamMembers: teamMembersReducer,
+  contacts:contactsReducer,
   socialLinks: SocialLinksReducer,
   companyInfo: companyInfoReducer,
   

@@ -20,6 +20,7 @@ return new class  extends Migration
             $table->text('message');
             $table->integer('rating')->nullable();
             $table->string('image_url')->nullable();
+            $table->string('company')->nullable();
             $table->timestamps();
         });
     }

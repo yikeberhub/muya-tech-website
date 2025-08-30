@@ -63,7 +63,7 @@ export default function TeamMemberTable({
                 <td className="p-2 border max-w-xs truncate">{member.bio || "-"}</td>
 
                 {/* Social Links */}
-                <td className="p-2 border flex flex-col gap-1">
+                <td className="p-2 border space-y-1">
                   {links.facebook && (
                     <a
                       href={links.facebook}
@@ -98,7 +98,7 @@ export default function TeamMemberTable({
                 </td>
 
                 {/* Actions */}
-                <td className="p-2 border flex gap-2 justify-center">
+                <td className="p-2  border whitespace-nowrap flex justify-center gap-2">
                   <button
                     onClick={() => onEdit(member)}
                     className="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"

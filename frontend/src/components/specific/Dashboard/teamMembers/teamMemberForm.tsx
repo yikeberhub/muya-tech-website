@@ -18,12 +18,10 @@ export default function TeamMemberForm({
   const [bio, setBio] = useState(initialData?.bio || "");
   const [photo, setPhoto] = useState<File | null>(null);
 
-  // Separate social links
   const [facebook, setFacebook] = useState(initialData?.social_links?.facebook || "");
   const [twitter, setTwitter] = useState(initialData?.social_links?.twitter || "");
   const [linkedin, setLinkedin] = useState(initialData?.social_links?.linkedin || "");
 
-  // Update state if initialData changes
   useEffect(() => {
     setName(initialData?.name || "");
     setPosition(initialData?.position || "");
@@ -40,14 +38,9 @@ export default function TeamMemberForm({
     formData.append("position", position);
     formData.append("bio", bio);
 
-    // Combine social links into JSON
     formData.append(
       "social_links",
-      JSON.stringify({
-        facebook,
-        twitter,
-        linkedin,
-      })
+      JSON.stringify({ facebook, twitter, linkedin })
     );
 
     if (photo) {
@@ -56,6 +49,12 @@ export default function TeamMemberForm({
 
     onSubmit(formData);
   };
+
+  const inputClasses =
+    "w-full border p-2 rounded bg-white dark:bg-gray-700 dark:text-white border-gray-300 dark:border-gray-600 placeholder-gray-400 dark:placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500";
+
+  const textareaClasses =
+    "w-full border p-2 rounded bg-white dark:bg-gray-700 dark:text-white border-gray-300 dark:border-gray-600 placeholder-gray-400 dark:placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500";
 
   return (
     <form
@@ -69,7 +68,8 @@ export default function TeamMemberForm({
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full border p-2 rounded"
+            className={inputClasses}
+            placeholder="Enter full name"
             required
           />
         </div>
@@ -80,7 +80,8 @@ export default function TeamMemberForm({
             type="text"
             value={position}
             onChange={(e) => setPosition(e.target.value)}
-            className="w-full border p-2 rounded"
+            className={inputClasses}
+            placeholder="Enter position"
             required
           />
         </div>
@@ -91,8 +92,9 @@ export default function TeamMemberForm({
         <textarea
           value={bio}
           onChange={(e) => setBio(e.target.value)}
-          className="w-full border p-2 rounded"
+          className={textareaClasses}
           rows={3}
+          placeholder="Short bio or description"
         />
       </div>
 
@@ -104,7 +106,7 @@ export default function TeamMemberForm({
             value={facebook}
             onChange={(e) => setFacebook(e.target.value)}
             placeholder="https://facebook.com/username"
-            className="w-full border p-2 rounded"
+            className={inputClasses}
           />
         </div>
         <div>
@@ -114,7 +116,7 @@ export default function TeamMemberForm({
             value={twitter}
             onChange={(e) => setTwitter(e.target.value)}
             placeholder="https://twitter.com/username"
-            className="w-full border p-2 rounded"
+            className={inputClasses}
           />
         </div>
         <div>
@@ -124,7 +126,7 @@ export default function TeamMemberForm({
             value={linkedin}
             onChange={(e) => setLinkedin(e.target.value)}
             placeholder="https://linkedin.com/in/username"
-            className="w-full border p-2 rounded"
+            className={inputClasses}
           />
         </div>
       </div>
@@ -135,7 +137,7 @@ export default function TeamMemberForm({
           type="file"
           accept="image/*"
           onChange={(e) => setPhoto(e.target.files?.[0] || null)}
-          className="w-full border p-2 rounded"
+          className={inputClasses}
         />
         {initialData?.photo_url && (
           <img

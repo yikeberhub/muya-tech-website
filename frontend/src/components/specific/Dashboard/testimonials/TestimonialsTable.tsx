@@ -1,35 +1,60 @@
 "use client";
 
-import { FaEdit } from "react-icons/fa";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 interface TestimonialsTableProps {
-  testimonials: { id: number; name: string; message: string }[];
+  testimonials: any[];
   onEdit: (testimonial: any) => void;
+  onDelete: (id: number) => void;
 }
 
-export default function TestimonialsTable({ testimonials, onEdit }: TestimonialsTableProps) {
+export default function TestimonialsTable({ testimonials, onEdit, onDelete }: TestimonialsTableProps) {
   return (
-    <table className="w-full table-auto border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden">
-      <thead className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
-        <tr>
-          <th className="px-4 py-2">Name</th>
-          <th className="px-4 py-2">Message</th>
-          <th className="px-4 py-2">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {testimonials.map(t => (
-          <tr key={t.id} className="border-t border-gray-300 dark:border-gray-600">
-            <td className="px-4 py-2">{t.name}</td>
-            <td className="px-4 py-2">{t.message}</td>
-            <td className="px-4 py-2">
-              <button onClick={() => onEdit(t)} className="text-blue-600 dark:text-blue-400">
-                <FaEdit />
-              </button>
-            </td>
+    <div className="overflow-x-auto">
+      <table className="w-full border-collapse border border-gray-300 dark:border-gray-700 text-sm">
+        <thead>
+          <tr className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
+            <th className="p-2 border">Photo</th>
+            <th className="p-2 border">Name</th>
+            <th className="p-2 border">Position</th>
+            <th className="p-2 border">Testimonial</th>
+            <th className="p-2 border">Actions</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {testimonials.length === 0 && (
+            <tr>
+              <td colSpan={5} className="text-center p-4 text-gray-500 dark:text-gray-300">
+                No testimonials found.
+              </td>
+            </tr>
+          )}
+          {testimonials.map((item) => (
+            <tr key={item.id} className="border-b border-gray-300 dark:border-gray-700">
+              <td className="p-2 border text-center">
+                {item.photo_url ? (
+                  <img
+                    src={item.photo_url}
+                    alt={item.name}
+                    className="h-12 w-12 object-cover rounded-full mx-auto"
+                  />
+                ) : "-"}
+              </td>
+              <td className="p-2 border">{item.name || "-"}</td>
+              <td className="p-2 border">{item.position || "-"}</td>
+              <td className="p-2 border truncate max-w-xs">{item.testimonial || "-"}</td>
+              <td className="p-2 border flex gap-2 justify-center">
+                <button onClick={() => onEdit(item)} className="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">
+                  <FiEdit />
+                </button>
+                <button onClick={() => onDelete(item.id)} className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600">
+                  <FiTrash2 />
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
