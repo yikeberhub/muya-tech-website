@@ -54,11 +54,11 @@ class FeaturedProductController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            if ($product->image) {
-                Storage::disk('public')->delete('product_images/' . $product->image);
+            if ($product->image_url) {
+                Storage::disk('public')->delete($product->image_url);
             }
             $path = $request->file('image')->store('product_images', 'public');
-            $validated['image'] = $path;
+            $validated['image_url'] = $path;
         }
 
         $product->update($validated);
