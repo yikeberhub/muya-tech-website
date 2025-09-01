@@ -28,6 +28,9 @@ Route::prefix('auth')->group(function () {
     Route::post('/login', [LoginController::class, 'login']);
 });
 
+Route::middleware('auth:sanctum')->get('/user/profile', [UserController::class, 'profile']);
+
+
 // =========================
 // User Routes
 // =========================

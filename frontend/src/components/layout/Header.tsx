@@ -9,25 +9,25 @@ import {
   FaInfoCircle,
   FaPhoneAlt,
   FaUserCircle,
-  FaSignInAlt, 
-  FaSignOutAlt
+  FaSignInAlt,
+  FaSignOutAlt,
 } from "react-icons/fa";
 import ThemeToggle from "../ui/ThemeToggle";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logout } from "@/redux/slices/authSlice";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const loggedUser = useAppSelector((state) => state.auth.user);
+  const { companyInfo, loading } = useAppSelector((state) => state.companyInfo);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleLogout = ()=>{
-    console.log('logout clicked')
-     dispatch(logout());
-     router.push("/login");
-  }
+  const handleLogout = () => {
+    dispatch(logout());
+    router.push("/login");
+  };
 
   return (
     <header className="bg-white shadow-md fixed w-full top-0 left-0 z-50 dark:bg-gray-900">
@@ -35,19 +35,20 @@ export default function Header() {
         {/* Brand */}
         <Link href="/" className="flex items-center my-0 py-0 group">
           <Image
-            src="/images/muyatech_logo.jpg"
-            alt="Muya Tech Logo"
+            src={companyInfo?.logo_url || "/images/muyatech_logo.jpg"}
+            alt={`${companyInfo?.company_name || "Company"} Logo`}
             width={70}
             height={50}
             className="mr-2 rounded-full transition-transform duration-300 group-hover:scale-110"
           />
-          <span className="text-2xl font-extrabold bg-gradient-to-r from-purple-700 via-pink-600 to-indigo-500 
+          <span
+            className="text-2xl font-extrabold bg-gradient-to-r from-purple-700 via-pink-600 to-indigo-500 
             bg-clip-text text-transparent 
             hover:from-pink-600 hover:via-purple-700 hover:to-indigo-600
             transition-all duration-500 ease-in-out select-none
-            dark:hover:from-pink-400 dark:hover:via-purple-400 dark:hover:to-indigo-400
-            ">
-            Muya Tech
+            dark:hover:from-pink-400 dark:hover:via-purple-400 dark:hover:to-indigo-400"
+          >
+            {loading ? "Loading..." : companyInfo?.company_name || "Muya Tech"}
           </span>
         </Link>
 
@@ -58,7 +59,6 @@ export default function Header() {
             { href: "/services", icon: FaServicestack, label: "Services" },
             { href: "/about", icon: FaInfoCircle, label: "About Us" },
             { href: "/contact", icon: FaPhoneAlt, label: "Contact" },
-            
           ].map(({ href, icon: Icon, label }) => (
             <Link
               key={href}
@@ -75,42 +75,46 @@ export default function Header() {
             </Link>
           ))}
 
-          {/* Dashboard Button */}
-          {
-            loggedUser?loggedUser.role==='admin'?(
-          <Link
-            href="/dashboard"
-            className="inline-flex items-center bg-gradient-to-r from-purple-600 to-indigo-600 
-              text-white font-semibold px-5 py-2 rounded-full shadow-lg
-              hover:from-pink-600 hover:to-indigo-700
-              transition duration-300 ease-in-out
-              active:scale-95"
-          >
-            <FaUserCircle className="mr-2 w-5 h-5" />
-            Dashboard
-          </Link>):(
-            <Link href="/logout"
-            className="inline-flex items-center bg-gradient-to-r from-purple-600 to-indigo-600 
-            text-white font-semibold px-5 py-2 rounded-full shadow-lg
-            hover:from-pink-600 hover:to-indigo-700
-            transition duration-300 ease-in-out
-            active:scale-95"
-        > 
-        <FaSignInAlt className="mr-2 w-5 h-5" onClick={handleLogout} />
-        Logout
-      </Link>   ):(
-        <Link href="/login"
-        className="inline-flex items-center bg-gradient-to-r from-purple-600 to-indigo-600 
-        text-white font-semibold px-5 py-2 rounded-full shadow-lg
-        hover:from-pink-600 hover:to-indigo-700
-        transition duration-300 ease-in-out
-        active:scale-95"
-    > 
-    <FaSignOutAlt className="mr-2 w-5 h-5" />
-    Login
-    </Link>   )
-
-    }
+          {/* Auth / Dashboard Buttons */}
+          {loggedUser ? (
+            loggedUser.role === "admin" ? (
+              <Link
+                href="/dashboard"
+                className="inline-flex items-center bg-gradient-to-r from-purple-600 to-indigo-600 
+                  text-white font-semibold px-5 py-2 rounded-full shadow-lg
+                  hover:from-pink-600 hover:to-indigo-700
+                  transition duration-300 ease-in-out
+                  active:scale-95"
+              >
+                <FaUserCircle className="mr-2 w-5 h-5" />
+                Dashboard
+              </Link>
+            ) : (
+              <button
+                onClick={handleLogout}
+                className="inline-flex items-center bg-gradient-to-r from-purple-600 to-indigo-600 
+                  text-white font-semibold px-5 py-2 rounded-full shadow-lg
+                  hover:from-pink-600 hover:to-indigo-700
+                  transition duration-300 ease-in-out
+                  active:scale-95"
+              >
+                <FaSignOutAlt className="mr-2 w-5 h-5" />
+                Logout
+              </button>
+            )
+          ) : (
+            <Link
+              href="/login"
+              className="inline-flex items-center bg-gradient-to-r from-purple-600 to-indigo-600 
+                text-white font-semibold px-5 py-2 rounded-full shadow-lg
+                hover:from-pink-600 hover:to-indigo-700
+                transition duration-300 ease-in-out
+                active:scale-95"
+            >
+              <FaSignInAlt className="mr-2 w-5 h-5" />
+              Login
+            </Link>
+          )}
 
           {/* Theme toggle button */}
           <ThemeToggle />
@@ -182,7 +186,6 @@ export default function Header() {
               { href: "/services", icon: FaServicestack, label: "Services" },
               { href: "/about", icon: FaInfoCircle, label: "About Us" },
               { href: "/contact", icon: FaPhoneAlt, label: "Contact" },
-              { href: "/dashboard", icon: FaUserCircle, label: "Dashboard" },
             ].map(({ href, icon: Icon, label }) => (
               <Link
                 key={href}
@@ -196,6 +199,31 @@ export default function Header() {
                 <span>{label}</span>
               </Link>
             ))}
+
+            {/* Auth buttons in mobile drawer */}
+            {loggedUser ? (
+              <button
+                onClick={() => {
+                  handleLogout();
+                  setIsOpen(false);
+                }}
+                className="flex items-center w-full justify-center space-x-2 
+                  bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 rounded-md font-semibold transition"
+              >
+                <FaSignOutAlt className="w-5 h-5" />
+                <span>Logout</span>
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center w-full justify-center space-x-2 
+                  bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 rounded-md font-semibold transition"
+              >
+                <FaSignInAlt className="w-5 h-5" />
+                <span>Login</span>
+              </Link>
+            )}
 
             {/* Theme toggle in mobile drawer */}
             <div className="mt-8">

@@ -2,7 +2,7 @@ import apiClient from "./apiClient";
 import { CompanyInfo, CompanyInfoPayload } from "../types/companyInfoType";
 
 // Fetch company info
-export const getCompanyInfoApi = async (): Promise<CompanyInfo[]> => {
+export const getCompanyInfoApi = async (): Promise<CompanyInfo> => {
   const response = await apiClient.get("/company-info");
   return response.data.data;
 };

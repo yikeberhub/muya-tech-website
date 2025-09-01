@@ -103,4 +103,9 @@ class UserController extends Controller
 
         return response()->json(['message'=>'user deleted successfully!']);
     }
+
+    public function profile(Request $request)
+    {
+        return new UserResource(Auth::user());
+    }
 }

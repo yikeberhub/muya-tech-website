@@ -8,13 +8,27 @@ import {
 import { CompanyInfo } from "../../types/companyInfoType";
 
 interface CompanyInfoState {
-  companyInfos: CompanyInfo[];
+  companyInfo: CompanyInfo;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: CompanyInfoState = {
-  companyInfos: [],
+  companyInfo: {
+    id: 1,
+    company_name: "Muya Tech",
+    email: "muyaTech@gmail.com",
+    phone: "0946472687",
+    address: "Addis Abeba",
+    city: "Addis Abeba",
+    state: "Addis Abeba",
+    country: "Ethiopia",
+    postal_code: "6000",
+    map_embed_url: "",
+    logo_url: "/images/muyatech_logo.jpg",
+    created_at: "",
+    updated_at: "",
+  },
   loading: false,
   error: null,
 };
@@ -59,8 +73,8 @@ const companyInfoSlice = createSlice({
     });
     builder.addCase(fetchCompanyInfo.fulfilled, (state, action) => {
       state.loading = false;
-      console.log('company info datas',action.payload)
-      state.companyInfos = action.payload;
+      console.log("company info datas", action.payload);
+      state.companyInfo = action.payload;
     });
     builder.addCase(fetchCompanyInfo.rejected, (state, action) => {
       state.loading = false;
@@ -74,7 +88,7 @@ const companyInfoSlice = createSlice({
     });
     builder.addCase(createCompanyInfo.fulfilled, (state, action) => {
       state.loading = false;
-      state.companyInfos.push(action.payload);
+      state.companyInfo = action.payload;
     });
     builder.addCase(createCompanyInfo.rejected, (state, action) => {
       state.loading = false;
@@ -88,10 +102,7 @@ const companyInfoSlice = createSlice({
     });
     builder.addCase(updateCompanyInfo.fulfilled, (state, action) => {
       state.loading = false;
-      const index = state.companyInfos.findIndex(
-        (i) => i.id === action.payload.id
-      );
-      if (index !== -1) state.companyInfos[index] = action.payload;
+      state.companyInfo = action.payload;
     });
     builder.addCase(updateCompanyInfo.rejected, (state, action) => {
       state.loading = false;
@@ -103,11 +114,9 @@ const companyInfoSlice = createSlice({
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(deleteCompanyInfo.fulfilled, (state, action) => {
+    builder.addCase(deleteCompanyInfo.fulfilled, (state) => {
       state.loading = false;
-      state.companyInfos = state.companyInfos.filter(
-        (i) => i.id !== action.payload
-      );
+      state.companyInfo = {} as CompanyInfo;
     });
     builder.addCase(deleteCompanyInfo.rejected, (state, action) => {
       state.loading = false;
