@@ -1,26 +1,16 @@
-// src/components/layout/FeaturedProducts.tsx
-import ProductCard from './ProductCard';
 
-const featuredProductsData = [
-  {
-    id: 1,
-    name: "Next.js Theme",
-    description:
-      "A modern Next.js starter theme tailored for software development projects — built with Tailwind CSS for speed and flexibility.",
-    price: "$49",
-    imageUrl: "/images/featuredProducts/soft_dev.jpg", // Image showing software development
-  },
-  {
-    id: 2,
-    name: "React UI Kit",
-    description:
-      "A comprehensive React component library ideal for content management systems — designed to simplify UI building and improve user experience.",
-    price: "$29",
-    imageUrl: "/images/featuredProducts/content_mgt.jpg",
-  },
-];
+"use client";
+
+// src/components/layout/FeaturedProducts.tsx
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import ProductCard from './ProductCard';
+import { useRouter } from 'next/navigation';
+
 
 export default function FeaturedProductsSection() {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const featuredProducts = useAppSelector((state) => state.products.products);  
   return (
     <section
       id="featured-products"
@@ -33,7 +23,7 @@ export default function FeaturedProductsSection() {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {featuredProductsData.map((product) => (
+          {featuredProducts.map((product) => (
             <ProductCard key={product.id} {...product} />
           ))}
         </div>

@@ -10,7 +10,8 @@ import { useRouter } from 'next/navigation';
 export default function Projects() {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const projectsData = useAppSelector((state) => state.projects.projects);  return (
+  const projectsData = useAppSelector((state) => state.projects.projects);  
+  return (
     <section id="projects" className="py-20 bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-200">
       <div className="container mx-auto text-center max-w-6xl px-4">
         <h2 className="text-4xl font-bold mb-4">Projects</h2>

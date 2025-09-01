@@ -1,23 +1,18 @@
+
 import { FiArrowRight, FiTrendingUp } from 'react-icons/fi';
+import {Product} from "@/types/productType";
 
-interface ProductCardProps {
-  name: string;
-  description: string;
-  price: string;
-  imageUrl: string;
-}
-
-export default function ProductCard({ name, description, price, imageUrl }: ProductCardProps) {
+export default function ProductCard({ id,name, description, price, image,product_url}: Product) {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col text-gray-900 dark:text-gray-200">
-      <img src={imageUrl} alt={name} className="w-full h-48 object-cover" />
+      <img src={image} alt={name} className="w-full h-48 object-cover" />
 
       <div className="p-6 flex flex-col flex-grow">
         <h3 className="text-2xl font-semibold mb-3">{name}</h3>
         <p className="text-gray-700 dark:text-gray-300 mb-6 flex-grow">{description}</p>
 
         <div className="flex items-center justify-between mb-6">
-          <span className="text-blue-600 dark:text-blue-400 font-bold text-xl text-center">{price}</span>
+          <span className="text-blue-600 dark:text-blue-400 font-bold text-xl text-center">{price} BIRR</span>
         </div>
 
         <div className="flex space-x-4">
