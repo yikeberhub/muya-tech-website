@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation";
 
 export default function Header() {
   const loggedUser = useAppSelector((state) => state.auth.user);
-  const { companyInfo, loading } = useAppSelector((state) => state.companyInfo);
+  const { companyInfos, loading } = useAppSelector((state) => state.companyInfo);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -35,8 +35,8 @@ export default function Header() {
         {/* Brand */}
         <Link href="/" className="flex items-center my-0 py-0 group">
           <Image
-            src={companyInfo?.logo_url || "/images/muyatech_logo.jpg"}
-            alt={`${companyInfo?.company_name || "Company"} Logo`}
+            src={companyInfos?.logo|| "/images/muyatech_logo.jpg"}
+            alt={`${companyInfos?.company_name || "Company"} Logo`}
             width={70}
             height={50}
             className="mr-2 rounded-full transition-transform duration-300 group-hover:scale-110"
