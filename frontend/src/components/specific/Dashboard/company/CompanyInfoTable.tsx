@@ -1,10 +1,11 @@
 "use client";
 
+import { CompanyInfo } from "@/types/companyInfoType";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 interface CompanyInfoTableProps {
-  companyInfos: any[];
-  onEdit: (company: any) => void;
+  companyInfos: CompanyInfo | null;
+  onEdit: (company: CompanyInfo) => void;
   onDelete: (id: number) => void;
 }
 
@@ -32,7 +33,7 @@ export default function CompanyInfoTable({
           </tr>
         </thead>
         <tbody>
-          {companyInfos.length === 0 && (
+          {!companyInfos ? (
             <tr>
               <td
                 colSpan={11}
@@ -41,17 +42,13 @@ export default function CompanyInfoTable({
                 No company info found.
               </td>
             </tr>
-          )}
-          {companyInfos.map((company) => (
-            <tr
-              key={company.id}
-              className="border-b border-gray-300 dark:border-gray-700"
-            >
+          ) : (
+            <tr className="border-b border-gray-300 dark:border-gray-700">
               {/* Logo */}
               <td className="p-2 border text-center">
-                {company.logo? (
+                {companyInfos.logo ? (
                   <img
-                    src={company.logo}
+                    src={companyInfos.logo}
                     alt="Logo"
                     className="h-10 w-10 object-cover rounded mx-auto"
                   />
@@ -61,20 +58,20 @@ export default function CompanyInfoTable({
               </td>
 
               {/* Company details */}
-              <td className="p-2 border">{company.company_name || "-"}</td>
-              <td className="p-2 border">{company.email || "-"}</td>
-              <td className="p-2 border">{company.phone || "-"}</td>
-              <td className="p-2 border">{company.address || "-"}</td>
-              <td className="p-2 border">{company.city || "-"}</td>
-              <td className="p-2 border">{company.state || "-"}</td>
-              <td className="p-2 border">{company.country || "-"}</td>
-              <td className="p-2 border">{company.postal_code || "-"}</td>
+              <td className="p-2 border">{companyInfos.company_name || "-"}</td>
+              <td className="p-2 border">{companyInfos.email || "-"}</td>
+              <td className="p-2 border">{companyInfos.phone || "-"}</td>
+              <td className="p-2 border">{companyInfos.address || "-"}</td>
+              <td className="p-2 border">{companyInfos.city || "-"}</td>
+              <td className="p-2 border">{companyInfos.state || "-"}</td>
+              <td className="p-2 border">{companyInfos.country || "-"}</td>
+              <td className="p-2 border">{companyInfos.postal_code || "-"}</td>
 
               {/* Map Embed (link) */}
               <td className="p-2 border text-blue-600 underline">
-                {company.map_embed_url ? (
+                {companyInfos.map_embed_url ? (
                   <a
-                    href={company.map_embed_url}
+                    href={companyInfos.map_embed_url}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -88,20 +85,20 @@ export default function CompanyInfoTable({
               {/* Actions */}
               <td className="p-2 border flex gap-2 justify-center">
                 <button
-                  onClick={() => onEdit(company)}
+                  onClick={() => onEdit(companyInfos)}
                   className="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
                 >
                   <FiEdit />
                 </button>
                 <button
-                  onClick={() => onDelete(company.id)}
+                  onClick={() => onDelete(companyInfos.id)}
                   className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
                 >
                   <FiTrash2 />
                 </button>
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>

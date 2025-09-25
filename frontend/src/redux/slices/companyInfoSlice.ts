@@ -8,13 +8,13 @@ import {
 import { CompanyInfo } from "../../types/companyInfoType";
 
 interface CompanyInfoState {
-  companyInfo: CompanyInfo;
+  companyInfos: CompanyInfo;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: CompanyInfoState = {
-  companyInfo: {
+  companyInfos: {
     id: 1,
     company_name: "Muya Tech",
     email: "muyaTech@gmail.com",
@@ -25,7 +25,7 @@ const initialState: CompanyInfoState = {
     country: "Ethiopia",
     postal_code: "6000",
     map_embed_url: "",
-    logo_url: "/images/muyatech_logo.jpg",
+    logo: "/images/muyatech_logo.jpg",
     created_at: "",
     updated_at: "",
   },
@@ -74,7 +74,7 @@ const companyInfoSlice = createSlice({
     builder.addCase(fetchCompanyInfo.fulfilled, (state, action) => {
       state.loading = false;
       console.log("company info datas", action.payload);
-      state.companyInfo = action.payload;
+      state.companyInfos = action.payload;
     });
     builder.addCase(fetchCompanyInfo.rejected, (state, action) => {
       state.loading = false;
@@ -88,7 +88,7 @@ const companyInfoSlice = createSlice({
     });
     builder.addCase(createCompanyInfo.fulfilled, (state, action) => {
       state.loading = false;
-      state.companyInfo = action.payload;
+      state.companyInfos = action.payload;
     });
     builder.addCase(createCompanyInfo.rejected, (state, action) => {
       state.loading = false;
@@ -102,7 +102,7 @@ const companyInfoSlice = createSlice({
     });
     builder.addCase(updateCompanyInfo.fulfilled, (state, action) => {
       state.loading = false;
-      state.companyInfo = action.payload;
+      state.companyInfos = action.payload;
     });
     builder.addCase(updateCompanyInfo.rejected, (state, action) => {
       state.loading = false;
@@ -116,7 +116,7 @@ const companyInfoSlice = createSlice({
     });
     builder.addCase(deleteCompanyInfo.fulfilled, (state) => {
       state.loading = false;
-      state.companyInfo = {} as CompanyInfo;
+      state.companyInfos = {} as CompanyInfo;
     });
     builder.addCase(deleteCompanyInfo.rejected, (state, action) => {
       state.loading = false;

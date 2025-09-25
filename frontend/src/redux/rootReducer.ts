@@ -27,7 +27,7 @@ const rootReducer = combineReducers({
   teamMembers: teamMembersReducer,
   contacts:contactsReducer,
   socialLinks: SocialLinksReducer,
-  companyInfo: companyInfoReducer,
+  companyInfos: companyInfoReducer,
   
 });
 

@@ -15,7 +15,7 @@ import {
 
 export default function CompanyInfoPage() {
   const theme = useAppSelector((state) => state.theme.mode);
-  const { companyInfos, loading } = useAppSelector((state) => state.companyInfo);
+  const { companyInfos, loading } = useAppSelector((state) => state.companyInfos);
   const dispatch = useAppDispatch();
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -95,11 +95,11 @@ export default function CompanyInfoPage() {
       </div>
 
       {/* Inline loader */}
-      {loading && companyInfos.length > 0 ? (
+      {loading && companyInfos? (
         <div className="flex justify-center items-center h-40">
           <LoadingSpinner size={40} />
         </div>
-      ) : companyInfos?.length > 0 ? (
+      ) : companyInfos? (
         <CompanyInfoTable
           companyInfos={companyInfos}
           onEdit={handleEdit}
