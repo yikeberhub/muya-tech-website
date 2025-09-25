@@ -7,7 +7,6 @@ import {
 } from "react-icons/fa";
 
 export default function Footer() {
-  const dispatch = useAppDispatch();
   return (
     <footer className="bg-gray-950 text-gray-200 dark:bg-gray-950 dark:text-gray-200">
       <div className="relative overflow-hidden py-16 px-6 text-center bg-gradient-to-br from-blue-700 to-purple-800 text-white shadow-2xl">
