@@ -38,7 +38,14 @@ export default function ContactsTable({ contacts, onEdit, onDelete }: ContactsTa
               <td className="p-2 border">{contact.phone_number || "-"}</td>
               <td className="p-2 border">{contact.subject || "-"}</td>
               <td className="p-2 border truncate max-w-xs">{contact.message || "-"}</td>
-              <td className="p-2 border truncate max-w-xs">{contact.is_read?<span className="text-green-500">Read</span>:<span className="text-red-500">Unread</span> || "-"}</td>
+
+              <td className="p-2 border truncate max-w-xs">
+                  {contact.is_read ? (
+                    <span className="text-green-500">Read</span>
+                  ) : (
+                    <span className="text-red-500">Unread</span>
+                  )}
+                </td>
               <td className="p-2 border flex gap-2 justify-center">
                 <button onClick={() => onEdit(contact)} className="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">
                   <FiEdit />
