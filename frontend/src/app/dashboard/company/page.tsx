@@ -15,7 +15,7 @@ import {
 
 export default function CompanyInfoPage() {
   const theme = useAppSelector((state) => state.theme.mode);
-  const { companyInfos, loading } = useAppSelector((state) => state.companyInfos);
+  const { companyInfos, loading } = useAppSelector((state) => state.companyInfo);
   const dispatch = useAppDispatch();
 
   const [modalOpen, setModalOpen] = useState(false);
