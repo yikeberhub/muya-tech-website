@@ -1,25 +1,31 @@
 "use client";
 
-import { motion } from "framer-motion"; // Import motion for animations
+import { motion, Variants, Transition } from "framer-motion";
+import { JSX } from "@emotion/react/jsx-runtime";
+
 import {
-  FaCode,
   FaDatabase,
   FaMobileAlt,
   FaCloud,
   FaServer,
-  FaLaptopCode, // A slightly different icon that might fit "frontend" better than FaCode for visual diversity
+  FaLaptopCode,
 } from "react-icons/fa";
 import { GiGears } from "react-icons/gi";
 
+interface TechCategory {
+  id: string;
+  icon: JSX.Element;
+  iconBgGradient: string;
+  title: string;
+  description: string;
+}
+
 export default function Technologies() {
-  const techCategories = [
+  const techCategories: TechCategory[] = [
     {
       id: "tech-frontend",
-      // Directly assign icon component with solid color
-      icon: (
-        <FaLaptopCode className="w-7 h-7 text-white dark:text-gray-900" />
-      ),
-      iconBgGradient: "bg-gradient-to-br from-blue-500 to-purple-600", // Background gradient for the icon container
+      icon: <FaLaptopCode className="w-7 h-7 text-white dark:text-gray-900" />,
+      iconBgGradient: "bg-gradient-to-br from-blue-500 to-purple-600",
       title: "Frontend",
       description: "React, Angular, Vue.js, Next.js",
     },
@@ -60,34 +66,33 @@ export default function Technologies() {
     },
   ];
 
-  // Framer Motion variants for staggered animation
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1, // Stagger children by 0.1 seconds
-      },
+      transition: { staggerChildren: 0.1 },
     },
   };
 
-  const itemVariants = {
+  const itemTransition: Transition = {
+    duration: 0.5,
+    ease: [0.42, 0, 0.58, 1], // Cubic bezier
+  };
+
+  const itemVariants: Variants = {
     hidden: { y: 50, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-        ease: [0.42, 0, 0.58, 1], // Cubic bezier for easeOut
-      },
-    },
+    visible: { y: 0, opacity: 1, transition: itemTransition },
   };
 
   return (
-    <section id="technologies" className="py-16 md:py-24 bg-gray-50 dark:bg-gray-900">
+    <section
+      id="technologies"
+      className="py-16 md:py-24 bg-gray-50 dark:bg-gray-900"
+    >
       <div className="container mx-auto px-6 max-w-7xl">
         <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-6 text-center leading-tight">
-          Technologies We <span className="text-primary-600 dark:text-primary-400">Master</span>
+          Technologies We{" "}
+          <span className="text-primary-600 dark:text-primary-400">Master</span>
         </h2>
         <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 text-center max-w-3xl mx-auto mb-16">
           We leverage the latest technologies and frameworks to build robust,
@@ -99,7 +104,7 @@ export default function Technologies() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }} // Animate when 30% of the container is visible
+          viewport={{ once: true, amount: 0.3 }}
         >
           {techCategories.map(({ id, icon, iconBgGradient, title, description }) => (
             <motion.div
@@ -108,13 +113,8 @@ export default function Technologies() {
               className="bg-white dark:bg-gray-800 p-6 rounded-2xl text-center shadow-lg hover:shadow-xl hover:scale-[1.03] transition-all duration-300 border border-gray-100 dark:border-gray-700 group cursor-pointer"
               variants={itemVariants}
             >
-              {/* Icon Container with Gradient Background */}
               <div
-                className={`
-                  w-16 h-16 rounded-full mx-auto mb-5 flex items-center justify-center
-                  ${iconBgGradient}
-                  transform group-hover:scale-110 group-hover:shadow-2xl transition-all duration-300
-                `}
+                className={`w-16 h-16 rounded-full mx-auto mb-5 flex items-center justify-center ${iconBgGradient} transform group-hover:scale-110 group-hover:shadow-2xl transition-all duration-300`}
               >
                 {icon}
               </div>
@@ -122,9 +122,7 @@ export default function Technologies() {
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 leading-snug">
                 {title}
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                {description}
-              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">{description}</p>
             </motion.div>
           ))}
         </motion.div>
