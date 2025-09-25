@@ -48,7 +48,7 @@ export default function Header() {
             transition-all duration-500 ease-in-out select-none
             dark:hover:from-pink-400 dark:hover:via-purple-400 dark:hover:to-indigo-400"
           >
-            {loading ? "Loading..." : companyInfo?.company_name || "Muya Tech"}
+            {loading ? "Loading..." : companyInfos?.company_name || "Muya Tech"}
           </span>
         </Link>
 
