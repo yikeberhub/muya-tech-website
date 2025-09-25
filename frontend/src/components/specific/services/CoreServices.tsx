@@ -1,13 +1,22 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { JSX } from "@emotion/react/jsx-runtime";
+import { motion, Variants, easeOut } from "framer-motion";
 import { FaCode, FaMobileAlt, FaCloud } from "react-icons/fa";
 
+interface Service {
+  icon: JSX.Element;
+  iconBg: string;
+  title: string;
+  desc: string;
+  list: string[];
+}
+
 export default function CoreServices() {
-  const services = [
+  const services: Service[] = [
     {
       icon: <FaCode className="w-8 h-8 text-white" />,
-      iconBg: "bg-gradient-to-br from-blue-500 to-indigo-600", // Blue gradient
+      iconBg: "bg-gradient-to-br from-blue-500 to-indigo-600",
       title: "Web Application Development",
       desc: "Responsive, scalable, and feature-rich web applications using the latest technologies.",
       list: [
@@ -19,7 +28,7 @@ export default function CoreServices() {
     },
     {
       icon: <FaMobileAlt className="w-8 h-8 text-white" />,
-      iconBg: "bg-gradient-to-br from-purple-500 to-pink-600", // Purple gradient
+      iconBg: "bg-gradient-to-br from-purple-500 to-pink-600",
       title: "Mobile App Development",
       desc: "Native and cross-platform mobile applications for iOS and Android.",
       list: [
@@ -31,7 +40,7 @@ export default function CoreServices() {
     },
     {
       icon: <FaCloud className="w-8 h-8 text-white" />,
-      iconBg: "bg-gradient-to-br from-red-500 to-orange-600", // Red gradient
+      iconBg: "bg-gradient-to-br from-red-500 to-orange-600",
       title: "SaaS Platform Development",
       desc: "Scalable, secure, and reliable Software-as-a-Service (SaaS) solutions.",
       list: [
@@ -44,24 +53,24 @@ export default function CoreServices() {
   ];
 
   // Framer Motion variants
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15, // Stagger child animations
+        staggerChildren: 0.15,
       },
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 50, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
         duration: 0.6,
-        ease: "easeOut", // Changed to string "easeOut" to fix TypeScript error
+        ease: easeOut,
       },
     },
   };
@@ -82,7 +91,7 @@ export default function CoreServices() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.4 }} // Animate when 40% of the container is visible
+          viewport={{ once: true, amount: 0.4 }}
         >
           {services.map((service, i) => (
             <motion.div
@@ -91,7 +100,6 @@ export default function CoreServices() {
                          hover:shadow-xl hover:scale-[1.02] transition-all duration-300 group cursor-pointer"
               variants={itemVariants}
             >
-              {/* Icon Container with Gradient Background - Centered */}
               <div
                 className={`
                   w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center
